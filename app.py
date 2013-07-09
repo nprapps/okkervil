@@ -6,8 +6,10 @@ import urllib
 
 import envoy
 from flask import Flask, Markup, abort, render_template
+import xlrd
 
 import app_config
+import copytext
 from render_utils import flatten_app_config, make_context
 
 app = Flask(app_config.PROJECT_NAME)
@@ -33,6 +35,26 @@ def test_widget():
     Example page displaying widget at different embed sizes.
     """
     return render_template('test_widget.html', **make_context())
+
+@app.route('/cues.json')
+def cues():
+    """
+    Render cue data from COPY doc. 
+    """
+    book = copytext.open_workbook()
+
+    for sheet in book.sheets():
+        if sheet.name != 'cues':
+            continue 
+
+        columns = sheet.row_values(0)
+        rows = []
+
+        for n in range(1, sheet.nrows):
+            # Sheet takes array of rows
+            rows.append(dict(zip(columns, sheet.row_values(n))))
+
+    return json.dumps(rows)
 
 @app.route('/test/test.html')
 def test_dir():

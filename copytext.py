@@ -5,6 +5,14 @@ import xlrd
 
 COPY_XLS = 'data/copy.xls'
 
+def open_workbook(filename=COPY_XLS):
+    try:
+        book = xlrd.open_workbook(filename)
+    except IOError:
+        raise CopyException('"%s" does not exist. Have you run "fab update_copy"?' % filename)
+
+    return book
+
 class CopyException(Exception):
     pass
 
@@ -96,10 +104,7 @@ class Copy(object):
         """
         Parses the downloaded .xls file and writes it as JSON.
         """
-        try:
-            book = xlrd.open_workbook(COPY_XLS)
-        except IOError:
-            raise CopyException('"%s" does not exist. Have you run "fab update_copy"?' % COPY_XLS)
+        book = open_workbook()
 
         for sheet in book.sheets():
             columns = sheet.row_values(0)
