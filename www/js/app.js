@@ -257,7 +257,7 @@ $(function() {
         return true;
     });
     
-    // Modals
-    $modal_intro.modal();
+    // Modals - commenting out initial one for now
+//    $modal_intro.modal();
 
 });
