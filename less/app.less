@@ -26,12 +26,20 @@ a:hover, a:active { color: #36c; }
     li { float: left; list-style-type: none; }
     li.donate { line-height: 44px; }
     li a,li span { color:white; text-decoration: none; }
-    ul.site-links li.npr a img {
-        width:120px;
-        height:32px;
-        margin:6px 20px 0 18px;
-        max-width:none;
-        &:hover { opacity: .7; }
+
+    ul.site-links {
+        li.npr a img {
+            width:120px;
+            height:32px;
+            margin:6px 20px 0 18px;
+            max-width:none;
+            &:hover { opacity: .7; }
+        }
+        li.project-name {
+            line-height: 44px;
+            font-size: 18px;
+            font-weight: normal;
+        }
     }
     
     ul.social-links { 

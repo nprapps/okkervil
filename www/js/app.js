@@ -210,6 +210,6 @@ $(function() {
     /*
         MODALS
     */
-    $modal_intro.modal();
+//    $modal_intro.modal();
 
 });
