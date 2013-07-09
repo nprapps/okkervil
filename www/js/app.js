@@ -148,12 +148,6 @@ function load_cue_data() {
 
         $browse_list.append(browse_output);
         $cue_nav.append(audio_output);
-
-        $cue_nav.find('.cue-nav-item').click( function() {
-            var id = parseInt($(this).attr('data-id'));
-            $player.jPlayer('play', cue_data[id]['cue']);
-        });
-
     });
 }
 
@@ -200,7 +194,6 @@ function goto_previous_cue() {
     return false;
 }
 
-
 $(function() {
     // Get element refs
     $nav = $('#nav');
@@ -227,6 +220,17 @@ $(function() {
 	$browse_list.mouseleave(browse_list_toggle);
     $next.click(goto_next_cue);
 	$back.click(goto_previous_cue);
+
+    $browse_list.on('click', 'a', function() {
+        var id = parseInt($(this).attr('data-id'));
+        $player.jPlayer('play', cue_data[id]['cue']);;
+        browse_list_toggle('close');
+    });
+
+    $cue_nav.on('click', '.cue-nav-item', function() {
+        var id = parseInt($(this).attr('data-id'));
+        $player.jPlayer('play', cue_data[id]['cue']);
+    });
 
     // Keyboard controls 
     $(document).keydown(function(ev) {
