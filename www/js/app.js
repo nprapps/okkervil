@@ -7,15 +7,16 @@ function xy(x, y) {
 }
 
 // Constants
-var MAX_X = 3772;
-var MAX_Y = 1845;
+var WIDTH = 3772;
+var HEIGHT = 1845;
 var MIN_ZOOM = 0;
 var DEFAULT_ZOOM = 3;
 var MAX_ZOOM = 4;
 var COORDINATE_MULTIPLIER = 1 / Math.pow(2, MAX_ZOOM - MIN_ZOOM);
 var MIN_COORDS = new L.LatLng(0, 0);
-var CENTER_COORDS = xy(MAX_X / 2, MAX_Y / 2);
-var MAX_COORDS = xy(MAX_X, MAX_Y); 
+var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
+var MAX_COORDS = xy(WIDTH, HEIGHT); 
+var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH / 2, -HEIGHT / 2), xy(WIDTH + WIDTH / 2, HEIGHT + HEIGHT / 2));
 
 // Elements
 var $nav;
@@ -47,6 +48,7 @@ function setup_superzoom() {
     superzoom = L.map('superzoom', {
         minZoom: MIN_ZOOM,
         maxZoom: MAX_ZOOM,
+        maxBounds: MAX_BOUNDS,
         crs: L.CRS.Simple,
         zoomControl: false,
         attributionControl: false
@@ -63,27 +65,9 @@ function setup_superzoom() {
         noWrap: true
     }).addTo(superzoom);
 
-    superzoom.on('load', recalculate_map_offset);
-    superzoom.on('zoomend', recalculate_map_offset);
-    $(window).resize(recalculate_map_offset);
-
     // Load!
     superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
 
-}
-
-function recalculate_map_offset() {
-    /*
-     * Calculates an appropriate map offset to compensate for the header.
-     */
-    var header_height = $nav.height();
-    
-    if ($topper.is(':visible')) {
-        header_height += $topper.height();
-    }
-
-    var offset = superzoom.unproject(new L.Point(0, -header_height), superzoom.getZoom());
-    //superzoom.setMaxBounds(new L.LatLngBounds(offset, MAX_COORDS));
 }
 
 function superzoom_to(x, y, zoom) {
