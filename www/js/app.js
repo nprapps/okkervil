@@ -110,21 +110,19 @@ $(function() {
 		
 		$.getJSON('cues.json', function(data) {
 			cue_data.push(undefined);
+                
+            num_cues = data.length;
             
 			$.each(data, function(k, v) {
+                v['id'] = k;
 				cue_data.push(v);
+                
+                var cue = parseFloat(v["cue"]);
 			
 				// Markup for this cue and its entry in the cue nav
 				// via Underscore template / JST
-                var context = v;
-                context['id'] = k + 1;
-
-				num_cues++;
-				
-                var cue = v["cue"];
-                
-                browse_output += JST.browse(cue);
-                audio_output += JST.cue_nav(cue);
+                browse_output += JST.browse(v);
+                audio_output += JST.cue_nav(v);
 
                 // Popcorn cuepoint for this cue
                 pop.code({
@@ -136,6 +134,7 @@ $(function() {
                         return false;
                     }
                 });
+				
 			});
 
             // Append credits to drop-down nav
