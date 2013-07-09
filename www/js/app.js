@@ -130,8 +130,10 @@ function load_cue_data() {
                 end: cue_time + .5,
                 onStart: function(options) {         
                     active_cue = cue['id'];
-                    console.log('HERE');
-                    // TODO - pan map to point 
+                    var x = parseInt(cue['x']);
+                    var y = parseInt(cue['y']);
+                    superzoom_to(x, y, MAX_ZOOM);
+
                     return false;
                 }
             });
@@ -174,8 +176,6 @@ function goto_next_cue() {
     /*
      * Jump to the next cue.
      */
-    console.log(active_cue);
-    console.log(num_cues);
     if (active_cue < (num_cues - 1)) {
         var id = active_cue + 1;
         $player.jPlayer('play', cue_data[id]['cue']);;
