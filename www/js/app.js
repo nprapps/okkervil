@@ -157,15 +157,8 @@ function load_cue_data() {
         $browse_list.append(browse_output);
         $cue_nav.append(audio_output);
 
-        $browse_list.find('.browse0').click(function() {
-            browse_list_toggle();
-            $modal_intro.modal();
-        });
-
-        $browse_list.find('.browse-cue:last').click(function() {
-            browse_list_toggle();
-            $modal_end.modal();
-        });
+        $browse_list.find('.browse0').click(open_intro_modal);
+        $browse_list.find('.browse-cue:last').click(open_end_modal);
     });
 }
 
@@ -210,6 +203,16 @@ function goto_previous_cue() {
     }
 
     return false;
+}
+
+function open_intro_modal() {
+    browse_list_toggle();
+    $modal_intro.modal();
+}
+
+function open_end_modal() {
+    browse_list_toggle();
+    $modal_end.modal();
 }
 
 $(function() {
@@ -271,5 +274,5 @@ $(function() {
     });
     
     // Modals - commenting out initial one for now
-//	    $modal_intro.modal();
+//	    open_intro_modal();
 });
