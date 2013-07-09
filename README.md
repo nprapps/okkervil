@@ -89,6 +89,15 @@ A site can have any number of rendered templates (i.e. pages). Each will need a 
 * Add a corresponding view function to ``app.py``. Decorate it with a route to the page name, i.e. ``@app.route('/filename.html')``
 * By convention only views that end with ``.html`` and do not start with ``_``  will automatically be rendered when you call ``fab render``.
 
+Rendering image tiles
+---------------------
+
+To render the image tiles run the following command:
+
+```
+python cut_tiles.py
+```
+
 Run the project locally
 -----------------------
 

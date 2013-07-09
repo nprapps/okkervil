@@ -1,16 +1,16 @@
 {% extends '_base.html' %}
 
 {% block extra_css %}
-    {{ CSS.push('css/mapbox.css') }}
+    {{ CSS.push('css/leaflet.css') }}
 {% endblock %}
 
 {% block extra_head_js %}
-    {{ JS.push('js/lib/mapbox.js') }}
+    {{ JS.push('js/lib/leaflet-src.js') }}
 {% endblock %}
 
 {% block extra_head %}
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="css/mapbox.ie.css" />
+    <link rel="stylesheet" href="css/leaflet.ie.css" />
     <![endif]-->
 {% endblock %}
 
