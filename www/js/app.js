@@ -1,14 +1,16 @@
 $(function() {
     var $nav = $('#nav');
     var $topper = $('#topper');
-	var $next = $('#next-btn');
-	var $back = $('#back-btn');
     var $audio = $('#audio');
 	var $progress = $audio.find('.jp-progress-container');
+	var $next = $('#next-btn');
+	var $back = $('#back-btn');
 	var $player = $('#pop-audio');
 	var $browse_btn = $('#browse-btn');
-    var $cue_nav = $('#cue-nav');
     var $cue_list = $('#cue-list');
+    var $cue_nav = $('#cue-nav');
+    var $modal_intro = $('#modal-intro');
+    var $modal_end = $('#modal-end');
 
     var MAX_X = 8550;
     var MAX_Y = 5768;
@@ -69,14 +71,6 @@ $(function() {
     superzoom.on('load', recalculate_map_offset);
     superzoom.on('zoomend', recalculate_map_offset);
     $(window).resize(recalculate_map_offset);
-
-    $('#about').click(function(){
-        if($('.modal-body').children().length < 1 ) {
-            $('.modal h3').html($('.legend-contents .headline').html());
-            $('.legend-contents').clone().appendTo('.modal-body');
-            $('.modal-body .legend-contents .headline').hide();
-        }
-    });
 
     window.superzoom_to = function(x, y, zoom) {
         superzoom.setView(xy(x, y), zoom);
@@ -212,5 +206,11 @@ $(function() {
 
         return true;
     });
+    
+    
+    /*
+        MODALS
+    */
+    $modal_intro.modal();
 
 });
