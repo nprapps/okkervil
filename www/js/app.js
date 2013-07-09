@@ -34,7 +34,7 @@ var $modal_end;
 
 // State
 var superzoom = null;
-var audio_length = 10;
+var audio_length = 7;
 var num_cues = 0; 
 var active_cue = 0;
 var cue_data = [];
@@ -112,25 +112,28 @@ function load_cue_data() {
     $.getJSON('cues.json', function(data) {
         num_cues = data.length;
         
-        $.each(data, function(k, v) {
-            v['id'] = k;
-            cue_data.push(v);
+        $.each(data, function(id, cue) {
+            cue['id'] = id;
+            cue['width'] = 100 * parseFloat(cue['length']) / audio_length;
+            cue_data.push(cue);
             
-            var cue = parseFloat(v["cue"]);
+            var cue_time = parseFloat(cue["cue"]);
         
             // Markup for this cue and its entry in the cue nav
             // via Underscore template / JST
-            browse_output += JST.browse(v);
-            audio_output += JST.cue_nav(v);
+            browse_output += JST.browse(cue);
+            audio_output += JST.cue_nav(cue);
 
             // Popcorn cuepoint for this cue
             pop.code({
-                start: cue,
-                end: cue + .5,
+                start: cue_time,
+                end: cue_time + .5,
                 onStart: function(options) {         
-                    active_cue = k;
-                    console.log('HERE');
-                    // TODO - pan map to point 
+                    active_cue = cue['id'];
+                    var x = parseInt(cue['x']);
+                    var y = parseInt(cue['y']);
+                    superzoom_to(x, y, MAX_ZOOM);
+
                     return false;
                 }
             });
@@ -142,7 +145,7 @@ function load_cue_data() {
             'id': num_cues + 1,
             'name': 'Index & Credits'
         });
-        
+
         $browse_list.append(browse_output);
         $cue_nav.append(audio_output);
 
@@ -177,8 +180,6 @@ function goto_next_cue() {
     /*
      * Jump to the next cue.
      */
-    console.log(active_cue);
-    console.log(num_cues);
     if (active_cue < (num_cues - 1)) {
         var id = active_cue + 1;
         $player.jPlayer('play', cue_data[id]['cue']);;

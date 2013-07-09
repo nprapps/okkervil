@@ -6,7 +6,6 @@ import urllib
 
 import envoy
 from flask import Flask, Markup, abort, render_template
-import xlrd
 
 import app_config
 import copytext
