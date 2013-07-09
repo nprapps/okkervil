@@ -10,6 +10,7 @@ function xy(x, y) {
 var MAX_X = 3772;
 var MAX_Y = 1845;
 var MIN_ZOOM = 0;
+var DEFAULT_ZOOM = 3;
 var MAX_ZOOM = 4;
 var COORDINATE_MULTIPLIER = 1 / Math.pow(2, MAX_ZOOM - MIN_ZOOM);
 var MIN_COORDS = new L.LatLng(0, 0);
@@ -67,7 +68,7 @@ function setup_superzoom() {
     $(window).resize(recalculate_map_offset);
 
     // Load!
-    superzoom.setView(CENTER_COORDS, MIN_ZOOM);
+    superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
 
 }
 
@@ -82,7 +83,7 @@ function recalculate_map_offset() {
     }
 
     var offset = superzoom.unproject(new L.Point(0, -header_height), superzoom.getZoom());
-    superzoom.setMaxBounds(new L.LatLngBounds(offset, MAX_COORDS));
+    //superzoom.setMaxBounds(new L.LatLngBounds(offset, MAX_COORDS));
 }
 
 function superzoom_to(x, y, zoom) {
