@@ -226,15 +226,23 @@ a:hover, a:active { color: #36c; }
 }
 
 
-// SLIDE NAV
-.cue-list {
-	.browse-cue { 
-		width: 25%; 
-		float: left; 
-		clear: right;
-		overflow: hidden;
-		max-height: 64px;
-	}
+// CUE-POINT NAV
+#browse-btn { 
+    float: left;
+    
+    &.active { background-color: @nav-button-color; }
+}
+#browse-list {
+	position: absolute;
+	top: @nav-height;
+	z-index: 1100;
+	background-color: @nav-color;
+	border-radius: 0 0 6px 6px;
+	border: 1px solid @nav-border;
+	border-top: none;
+	margin-top: -1px;
+    display: none;
+
 	h2 { 
 	    font: 13px/1.3 Arial, Helvetica, sans-serif; 
 	    margin: 0;
@@ -257,35 +265,16 @@ a:hover, a:active { color: #36c; }
 	}
 	&:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 }
-#list-nav { 
-	width: 80%;
-	position: absolute;
-	left: 10%; // (100 - width)/2
-	z-index: 1100;
-	background-color: @nav-color;
-	border-radius: 0 0 6px 6px;
-	border: 1px solid @nav-border;
-	border-top: none;
-	margin-top: -1px;
-}
-#list-nav-end {
-	margin-bottom: 20px;
-
-	h2, p { margin-left: 70px; }
-	img { margin-right: 0; }
-	a { padding: 0; display: inline; border: none; display: block; }
-	a:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-	a:hover, a.active { background-color: none; }
-}
-#browse-btn { float: left; }
-#browse-btn.active { background-color: @nav-button-color; }
 
 
 // Map
 #superzoom { background-color: #000; }
         
+
 p.desc {background:url('../img/npr_75x25.png') no-repeat center left; padding-left:85px; margin: 13px; line-height: 15px; font-size: 13px; color: #999;}
-        
+
+
+// Modal
 .modal {
     margin: 0;
     width: 90%;
@@ -327,10 +316,6 @@ p.desc {background:url('../img/npr_75x25.png') no-repeat center left; padding-le
 
 .modal-backdrop {
     background: rgba(255, 255, 255, 0.9);
-}
-
-#browse-list {
-    display: none;
 }
 
 .leaflet-top {

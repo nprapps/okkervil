@@ -158,11 +158,15 @@ function browse_list_toggle(mode) {
     /*
      * Open or close the cue list.
      */
+    var browse_btn_position = $browse_btn.offset();
+     
     if (browse_list_open || mode == 'close') {
         $browse_list.hide();
         $browse_btn.removeClass('active');
         browse_list_open = false;
     } else if (!browse_list_open || mode == 'open') {
+        $browse_list.css('top', browse_btn_position.top + $browse_btn.height());
+        $browse_list.css('left', browse_btn_position.left);
         $browse_list.show();
         $browse_btn.addClass('active');
         browse_list_open = true;
@@ -219,6 +223,7 @@ $(function() {
 
     // Event handlers
 	$browse_btn.click(browse_list_toggle);
+	$browse_list.mouseleave(browse_list_toggle);
     $next.click(goto_next_cue);
 	$back.click(goto_previous_cue);
 
