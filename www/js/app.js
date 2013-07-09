@@ -67,7 +67,9 @@ function setup_superzoom() {
 
     // Load!
     superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
-
+    
+    // load intro modal
+    open_intro_modal();
 }
 
 function superzoom_to(x, y, zoom) {
@@ -75,7 +77,6 @@ function superzoom_to(x, y, zoom) {
      * Zoom to a given x, y point and zoom (in pixel space).
      */
     superzoom.setView(xy(x, y), zoom);
-    $('.modal').modal('hide');
 }
 
 function setup_jplayer() {
@@ -188,8 +189,10 @@ function goto_next_cue() {
     if (active_cue < (num_cues - 1)) {
         var id = active_cue + 1;
         $player.jPlayer('play', cue_data[id]['cue']);;
+    } else {
+        active_cue = num_cues;
+        open_end_modal();
     }
-
     return false;
 }
 
@@ -200,19 +203,25 @@ function goto_previous_cue() {
     if (active_cue > 0) {
         var id = active_cue - 1;
         $player.jPlayer('play', cue_data[id]['cue']);;
+    } else {
+        active_cue = 0;
+        open_intro_modal();
     }
-
     return false;
 }
 
 function open_intro_modal() {
-    browse_list_toggle();
+    console.log('open_intro_modal');
+    console.log($modal_intro);
     $modal_intro.modal();
+    browse_list_toggle('close');
+    active_cue = 0;
 }
 
 function open_end_modal() {
-    browse_list_toggle();
     $modal_end.modal();
+    browse_list_toggle('close');
+    active_cue = num_cues;
 }
 
 $(function() {
@@ -238,14 +247,16 @@ $(function() {
 
     // Event handlers
 	$browse_btn.click(browse_list_toggle);
-	$browse_list.mouseleave(browse_list_toggle);
+	$browse_list.mouseleave(browse_list_toggle('close'));
     $next.click(goto_next_cue);
 	$back.click(goto_previous_cue);
 
     $browse_list.on('click', 'a', function() {
         var id = parseInt($(this).attr('data-id'));
-        $player.jPlayer('play', cue_data[id]['cue']);;
-        browse_list_toggle('close');
+        if (cue_data[id]) {
+            $player.jPlayer('play', cue_data[id]['cue']);;
+            browse_list_toggle('close');
+        }
     });
 
     $cue_nav.on('click', '.cue-nav-item', function() {
@@ -272,7 +283,4 @@ $(function() {
 
         return true;
     });
-    
-    // Modals - commenting out initial one for now
-//	    open_intro_modal();
 });

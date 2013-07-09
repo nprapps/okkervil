@@ -269,54 +269,6 @@ a:hover, a:active { color: #36c; }
 
 // Map
 #superzoom { background-color: #000; }
-        
-
-p.desc {background:url('../img/npr_75x25.png') no-repeat center left; padding-left:85px; margin: 13px; line-height: 15px; font-size: 13px; color: #999;}
-
-
-// Modal
-.modal {
-    margin: 0;
-    width: 90%;
-    height: 90%;
-    left: 5%;
-    top: 5%;
-    border:none;
-    border-radius:0;
-    box-shadow:none;
-    border:2px solid #E0E0E0;
-
-    .modal-body {
-        max-height:none;
-    }
-    
-    .modal-header {
-        padding: 12px 15px;
-        border-bottom:none;
-    }
-
-    .modal-header .close {
-        height:30px;
-        width:30px;
-        background-image: url(@icon-sprite);
-        background-repeat: no-repeat;
-        background-position: 0 -250px;
-        opacity:1;
-        &:hover { opacity: .7; }
-    }
-    
-    .modal-header h3 {
-        font-size: 24px;
-        font-family: Georgia, serif;
-        line-height: 32px;
-        color: #222;
-        font-weight:normal;
-    }
-}
-
-.modal-backdrop {
-    background: rgba(255, 255, 255, 0.9);
-}
 
 .leaflet-top {
     top: 63px;
@@ -358,6 +310,56 @@ p.desc {background:url('../img/npr_75x25.png') no-repeat center left; padding-le
         color: #E0E0E0;
         }
 }
+        
+
+// Modal
+.modal {
+    margin: 0;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+    border:none;
+    border-radius:0;
+    box-shadow:none;
+    background-color: @nav-color;
+    border: none;
+    
+    a {
+        color: @nav-text-color;
+        font-weight: bold;
+    }
+    .modal-body {
+        max-height: none;
+        color: #999;
+    }
+    .modal-header {
+        padding: 12px 15px;
+        border-bottom:none;
+
+        .close {
+            height:30px;
+            width:30px;
+            background-image: url(@icon-sprite);
+            background-repeat: no-repeat;
+            background-position: 0 -250px;
+            opacity:1;
+            &:hover { opacity: .7; }
+        }
+        h3 {
+            font-size: 24px;
+            font-family: Georgia, serif;
+            line-height: 32px;
+            color: #eee;
+            font-weight:normal;
+        }
+    }
+}
+
+.modal-backdrop {
+    background-color: #111;
+}
+
 
 @media (max-width: 479px) {
     body { padding-left: 0; padding-right: 0; }
