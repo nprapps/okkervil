@@ -27,7 +27,7 @@ var $next;
 var $back;
 var $player;
 var $browse_btn;
-var $cue_list;
+var $browse_list;
 var $cue_nav;
 var $modal_intro;
 var $modal_end;
@@ -39,7 +39,7 @@ var num_cues = 0;
 var active_cue = 0;
 var cue_data = [];
 var pop = null;
-var cue_list_open = false;
+var browse_list_open = false;
 
 function setup_superzoom() {
     /*
@@ -143,6 +143,7 @@ function load_cue_data() {
             'name': 'Index & Credits'
         });
         
+        $browse_list.append(browse_output);
         $cue_nav.append(audio_output);
 
         $cue_nav.find('.cue-nav-item').click( function() {
@@ -153,18 +154,18 @@ function load_cue_data() {
     });
 }
 
-function cue_list_toggle(mode) {
+function browse_list_toggle(mode) {
     /*
      * Open or close the cue list.
      */
-    if (cue_list_open || mode == 'close') {
-        $cue_list.hide();
+    if (browse_list_open || mode == 'close') {
+        $browse_list.hide();
         $browse_btn.removeClass('active');
-        cue_list_open = false;
-    } else if (!cue_list_open || mode == 'open') {
-        $cue_list.show();
+        browse_list_open = false;
+    } else if (!browse_list_open || mode == 'open') {
+        $browse_list.show();
         $browse_btn.addClass('active');
-        cue_list_open = true;
+        browse_list_open = true;
     }
 }
 
@@ -205,7 +206,7 @@ $(function() {
 	$back = $('#back-btn');
 	$player = $('#pop-audio');
 	$browse_btn = $('#browse-btn');
-    $cue_list = $('#cue-list');
+    $browse_list = $('#browse-list');
     $cue_nav = $('#cue-nav');
     $modal_intro = $('#modal-intro');
     $modal_end = $('#modal-end');
@@ -217,7 +218,7 @@ $(function() {
     setup_jplayer();
 
     // Event handlers
-	$browse_btn.click(cue_list_toggle());
+	$browse_btn.click(browse_list_toggle);
     $next.click(goto_next_cue);
 	$back.click(goto_previous_cue);
 
