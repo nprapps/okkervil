@@ -43,6 +43,8 @@ var active_cue = 0;
 var cue_data = [];
 var pop = null;
 var browse_list_open = false;
+var icon = null;
+var marker = null;
 
 function setup_superzoom() {
     /*
@@ -68,19 +70,26 @@ function setup_superzoom() {
         noWrap: true
     }).addTo(superzoom);
 
+    icon = new L.Icon({
+        iconUrl: 'img/marker-icon.png',
+        iconRetinaUrl: 'img/marker-icon-2x.png',
+        //iconSize: [38, 95],
+        //iconAnchor: [22, 94],
+        //popupAnchor: [-3, -76],
+        shadowUrl: 'img/marker-shadow.png',
+        shadowRetinaUrl: 'img/marker-shadow.png',
+        //shadowSize: [68, 95],
+        //shadowAnchor: [22, 94]
+    });
+
     // Load!
     superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
 }
 
 function superzoom_to(x, y, zoom) {
     /*
-     * Zoom to a given x, y point and zoom (in pixel space).
+     * Zoom to a given x, y point (in pixel space).
      */
-    /*superzoom.panTo(xy(x, y), {
-        animate: true,
-        duration: 0.5
-    });
-    superzoom.setZoom(zoom);*/
     superzoom.setView(xy(x, y), zoom, {
         animate: true,
         pan: { duration: PAN_DURATION } 
@@ -193,9 +202,13 @@ function goto_cue(id) {
      * Jump to a cue and update all display info, including superzoom.
      */
     var cue = cue_data[id];
-    console.log(cue);
     var x = parseInt(cue['x']);
     var y = parseInt(cue['y']);
+
+    if (marker) {
+        superzoom.removeLayer(marker);
+        marker = null;
+    }
 
     if (id == 0) {
         $player.jPlayer('pause', cue['cue']);
@@ -206,6 +219,11 @@ function goto_cue(id) {
         open_end_modal();
         superzoom_to(x, y, DEFAULT_ZOOM);
     } else {
+        marker = new L.Marker(xy(x, y), {
+            icon: icon 
+        });
+        marker.addTo(superzoom);
+
         superzoom_to(x, y, MAX_ZOOM);
     }
 
