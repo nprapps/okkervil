@@ -147,7 +147,9 @@ function setup_jplayer() {
         timeupdate: function(e) {
             var current_time = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
             var elapsed_time = $.jPlayer.convertTime(Math.ceil(AUDIO_LENGTH- e.jPlayer.status.currentTime));
-            $current_time.text(current_time + ' (' + elapsed_time + ')');
+            var total_time = $.jPlayer.convertTime(Math.ceil(AUDIO_LENGTH));
+//            $current_time.text(current_time + ' (' + elapsed_time + ')');
+            $current_time.text(current_time + ' / ' + total_time);
         },
         ended: function () {
             $(this).jPlayer("pause", AUDIO_LENGTH - 1);
