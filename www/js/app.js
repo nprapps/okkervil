@@ -17,6 +17,7 @@ var MIN_COORDS = new L.LatLng(0, 0);
 var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
 var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH / 2, -HEIGHT / 2), xy(WIDTH + WIDTH / 2, HEIGHT + HEIGHT / 2));
+var PAN_DURATION = 1.0;
 
 // Elements
 var $superzoom;
@@ -75,10 +76,21 @@ function superzoom_to(x, y, zoom) {
     /*
      * Zoom to a given x, y point and zoom (in pixel space).
      */
-    superzoom.setView(xy(x, y), zoom);
+    /*superzoom.panTo(xy(x, y), {
+        animate: true,
+        duration: 0.5
+    });
+    superzoom.setZoom(zoom);*/
+    superzoom.setView(xy(x, y), zoom, {
+        animate: true,
+        pan: { duration: PAN_DURATION } 
+    });
 }
 
 function freeze_superzoom() {
+    /*
+     * Disable pan/zoom controls.
+     */
     superzoom.dragging.disable();
     superzoom.touchZoom.disable();
     superzoom.doubleClickZoom.disable();
@@ -89,6 +101,9 @@ function freeze_superzoom() {
 }
 
 function unfreeze_superzoom() {
+    /*
+     * Enable pan/zoom controls.
+     */
     superzoom.dragging.enable();
     superzoom.touchZoom.enable();
     superzoom.doubleClickZoom.enable();
