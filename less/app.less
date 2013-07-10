@@ -309,13 +309,19 @@ a:hover, a:active { color: #36c; }
     top: 15%;
     border:none;
     border-radius:0;
-    box-shadow:none;
-    background-color: @map-background-color;
+    box-shadow: none;
+    background: @map-background-color;
     border: none;
     
     a {
         color: @nav-text-color;
         font-weight: bold;
+    }
+    &#modal-intro {
+        background-image: url('@{img-root}/lpjacket-bw.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50% 50%;
     }
     .modal-body {
         max-height: none;
