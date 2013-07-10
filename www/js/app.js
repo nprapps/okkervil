@@ -181,6 +181,9 @@ function update_current_cue(id) {
     /*
      * Update the display of the current cue name.
      */
+    $('.browse-cue a').removeClass('active');
+    $('.browse-' + id + ' a').addClass('active');
+
     var browse_text = $('.browse-' + id + ' a h2').text();
     $current_cue.text(browse_text);
 }
