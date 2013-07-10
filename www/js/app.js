@@ -19,6 +19,7 @@ var MAX_COORDS = xy(WIDTH, HEIGHT);
 var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH / 2, -HEIGHT / 2), xy(WIDTH + WIDTH / 2, HEIGHT + HEIGHT / 2));
 
 // Elements
+var $superzoom;
 var $nav;
 var $topper;
 var $audio;
@@ -34,6 +35,7 @@ var $modal_end;
 
 // State
 var superzoom = null;
+var zoom_control = null;
 var audio_length = 7;
 var num_cues = 0; 
 var active_cue = 0;
@@ -54,7 +56,7 @@ function setup_superzoom() {
         attributionControl: false
     });
 
-    var zoom_control = new L.Control.Zoom({
+    zoom_control = new L.Control.Zoom({
         position: 'topright'
     }).addTo(superzoom);
 
@@ -67,9 +69,6 @@ function setup_superzoom() {
 
     // Load!
     superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
-    
-    // load intro modal
-    //open_intro_modal();
 }
 
 function superzoom_to(x, y, zoom) {
@@ -77,6 +76,26 @@ function superzoom_to(x, y, zoom) {
      * Zoom to a given x, y point and zoom (in pixel space).
      */
     superzoom.setView(xy(x, y), zoom);
+}
+
+function freeze_superzoom() {
+    superzoom.dragging.disable();
+    superzoom.touchZoom.disable();
+    superzoom.doubleClickZoom.disable();
+    superzoom.boxZoom.disable();
+    superzoom.keyboard.disable();
+    zoom_control.removeFrom(superzoom);
+    $superzoom.addClass('frozen');
+}
+
+function unfreeze_superzoom() {
+    superzoom.dragging.enable();
+    superzoom.touchZoom.enable();
+    superzoom.doubleClickZoom.enable();
+    superzoom.boxZoom.enable();
+    superzoom.keyboard.enable();
+    zoom_control.addTo(superzoom);
+    $superzoom.removeClass('frozen');
 }
 
 function setup_jplayer() {
@@ -92,7 +111,13 @@ function setup_jplayer() {
 
             load_cue_data();
         },
-        ended: function (event) {
+        play: function() {
+            freeze_superzoom();
+        },
+        pause: function() {
+            unfreeze_superzoom();
+        },
+        ended: function () {
             $(this).jPlayer("pause", audio_length - 1);
         },
         swfPath: "js",
@@ -245,6 +270,7 @@ function open_end_modal() {
 
 $(function() {
     // Get element refs
+    $superzoom = $('#superzoom');
     $nav = $('#nav');
     $topper = $('#topper');
     $audio = $('#audio');

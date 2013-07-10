@@ -276,7 +276,13 @@ a:hover, a:active { color: #36c; }
 
 
 // Map
-#superzoom { background-color: #000; }
+#superzoom {
+    background-color: #000;
+
+    &.frozen {
+        cursor: not-allowed;
+    }
+}
 
 .leaflet-top {
     top: 63px;
