@@ -14,7 +14,8 @@ import os
 NAMES
 """
 # Project name used for display
-PROJECT_NAME = 'okkervil'
+PROJECT_NAME = 'Okkervil River\'s Silver Gymnasium'
+PROJECT_SHORT_NAME = 'The Silver Gymnasium'
 
 # Project name used for paths on the filesystem and in urls
 # Use dashes, not underscores
