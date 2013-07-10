@@ -303,30 +303,70 @@ a:hover, a:active { color: #36c; }
 // Modal
 .modal {
     margin: 0;
-    width: 80%;
-    height: 60%;
-    left: 10%;
-    top: 15%;
+    width: 90%;
+    left: 5%;
+    top: 10%;
     border:none;
     border-radius:0;
     box-shadow: none;
-    background: @map-background-color;
     border: none;
+    background: @map-background-color url('@{img-root}/lpjacket-bw.png') no-repeat 50% 50%;
+    background-size: cover;
     
+    h3 {
+        font-size: 32px;
+        font-family: Georgia, serif;
+        line-height: 1.2;
+        color: #eee;
+        font-weight:normal;
+        margin: 0 auto 22px auto;
+        max-width: 450px;
+    }
+    p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0 auto 22px auto;
+        max-width: 450px;
+    }
     a {
         color: @nav-text-color;
         font-weight: bold;
+        
+        &.play-btn {
+            display: inline-block;
+            font-weight: normal;
+            margin-top: 22px;
+            padding: 0 22px;
+            line-height: @button-height;
+            font-size: 20px;
+            background: @nav-button-color;
+            color: @nav-text-color;
+            
+            &:hover {
+                background: @nav-button-hover;
+                color: @nav-text-hover;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
     }
     &#modal-intro {
-        background-image: url('@{img-root}/lpjacket-bw.png');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50% 50%;
+        min-height: 65%;
+
+        h3 {
+            font-size: 48px;
+            padding-top: 33px;
+        }
+        p {
+            font-size: 20px;
+        }
     }
     .modal-body {
         max-height: none;
-        color: #999;
         overflow-y: visible;
+        padding: 33px 33px 88px 33px;
+        color: #999;
+        text-align: center;
     }
     .modal-bottom {
         position: absolute;
@@ -337,29 +377,8 @@ a:hover, a:active { color: #36c; }
         img {
             display: block;
             height: auto;
-            max-width: 100%;
+            max-width: 90%;
             margin: 0 auto;
-        }
-    }
-    .modal-header {
-        padding: 12px 15px;
-        border-bottom:none;
-
-        .close {
-            height:30px;
-            width:30px;
-            background-image: url(@icon-sprite);
-            background-repeat: no-repeat;
-            background-position: 0 -250px;
-            opacity:1;
-            &:hover { opacity: .7; }
-        }
-        h3 {
-            font-size: 24px;
-            font-family: Georgia, serif;
-            line-height: 32px;
-            color: #eee;
-            font-weight:normal;
         }
     }
     .share-buttons {
@@ -401,6 +420,8 @@ a:hover, a:active { color: #36c; }
 
 .modal-backdrop {
     background-color: #111;
+    opacity: .95;
+    filter: alpha(opacity=95);
 }
 
 
