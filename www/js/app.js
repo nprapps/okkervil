@@ -36,7 +36,9 @@ var $current_cue;
 var $current_time;
 var $browse_list;
 var $modal_intro;
+var $start_btn;
 var $modal_end;
+var $end_btn;
 
 // State
 var superzoom = null;
@@ -321,7 +323,9 @@ $(function() {
     $current_time = $('#audio .current-time');
     $browse_list = $('#browse-list');
     $modal_intro = $('#modal-intro');
+    $start_btn = $modal_intro.find('.more');
     $modal_end = $('#modal-end');
+    $end_btn = $modal_end.find('.more');
 
     // Setup the zoomer
     setup_superzoom()
@@ -331,9 +335,18 @@ $(function() {
 
     // Event handlers
 	$browse_btn.click(browse_list_toggle);
-	$browse_list.mouseleave(browse_list_toggle('close'));
+	$browse_list.mouseleave(browse_list_toggle);
     $next.click(goto_next_cue);
 	$back.click(goto_previous_cue);
+
+    $start_btn.click(function() {
+        $modal_intro.modal('hide');
+        $player.jPlayer('play');
+    });
+
+    $end_btn.click(function() {
+        $modal_end.modal('hide');
+    });
 
     $browse_list.on('click', 'a', function() {
         var id = parseInt($(this).attr('data-id'));
