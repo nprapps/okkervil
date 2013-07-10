@@ -115,6 +115,9 @@ function load_cue_data() {
         $.each(data, function(id, cue) {
             cue['id'] = id;
             cue['width'] = 100 * parseFloat(cue['length']) / audio_length;
+
+            cue['show_number'] = (id != 0 && id != num_cues - 1);
+
             cue_data.push(cue);
             
             var cue_time = parseFloat(cue["cue"]);
