@@ -65,9 +65,10 @@ function setup_superzoom() {
         position: 'topright'
     }).addTo(superzoom);
 
-    var tiles = L.tileLayer('/img/tiles/{z}/{x}/{y}.jpg', {
-    //var tiles = L.tileLayer('http://{s}.npr.org/bob-boilens-wristbands-2012/img/tiles/{z}/{x}/{y}.jpg', {
-        subdomains: ['apps', 'apps2'],
+    //var tiles = L.tileLayer('/img/tiles/{z}/{x}/{y}.jpg', {
+    var tiles = L.tileLayer('http://{s}.npr.org/okkervil/img/tiles/{z}/{x}/{y}.jpg', {
+        //subdomains: ['apps', 'apps2'],
+        subdomains: ['stage-apps'],
         continuousWorld: true,
         noWrap: true
     }).addTo(superzoom);
