@@ -171,7 +171,7 @@ function load_cue_data() {
                 start: cue_time,
                 end: cue_time + .1,
                 onStart: function(options) {         
-                    goto_cue(id, true);
+                    goto_cue(id);
 
                     return false;
                 }
@@ -188,11 +188,12 @@ function load_cue_data() {
     });
 }
 
-function goto_cue(id, dont_move_playhead) {
+function goto_cue(id) {
     /*
      * Jump to a cue and update all display info, including superzoom.
      */
     var cue = cue_data[id];
+    console.log(cue);
     var x = parseInt(cue['x']);
     var y = parseInt(cue['y']);
 
@@ -205,13 +206,9 @@ function goto_cue(id, dont_move_playhead) {
         open_end_modal();
         superzoom_to(x, y, DEFAULT_ZOOM);
     } else {
-        if (!dont_move_playhead) {
-            $player.jPlayer('play', cue['cue']);
-        }
-    
         superzoom_to(x, y, MAX_ZOOM);
     }
-    
+
     update_current_cue(id);
 
     active_cue = id;
@@ -253,7 +250,7 @@ function goto_next_cue() {
      */
     if (active_cue < (num_cues - 1)) {
         var id = active_cue + 1;
-        goto_cue(id);
+        $player.jPlayer('play', cue_data[id]['cue']);
     }
 
     return false;
@@ -265,7 +262,7 @@ function goto_previous_cue() {
      */
     if (active_cue > 0) {
         var id = active_cue - 1;
-        goto_cue(id);
+        $player.jPlayer('play', cue_data[id]['cue']);
     }
 
     return false;
@@ -313,7 +310,7 @@ $(function() {
 
     $browse_list.on('click', 'a', function() {
         var id = parseInt($(this).attr('data-id'));
-        goto_cue(id);
+        $player.jPlayer('play', cue_data[id]['cue']);
         browse_list_toggle('close');
     });
 
