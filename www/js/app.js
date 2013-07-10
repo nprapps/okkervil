@@ -27,8 +27,8 @@ var $next;
 var $back;
 var $player;
 var $browse_btn;
+var $current_cue;
 var $browse_list;
-var $cue_nav;
 var $modal_intro;
 var $modal_end;
 
@@ -107,7 +107,6 @@ function load_cue_data() {
     /* 
      * Load cue data from external JSON.
      */
-    var audio_output = '';
     var browse_output = '';
     
     $.getJSON('cues.json', function(data) {
@@ -130,7 +129,6 @@ function load_cue_data() {
             // Markup for this cue and its entry in the cue nav
             // via Underscore template / JST
             browse_output += JST.browse(cue);
-            audio_output += JST.cue_nav(cue);
 
             // Popcorn cuepoint for this cue
             pop.code({
@@ -153,14 +151,33 @@ function load_cue_data() {
             'id': num_cues + 1,
             'name': 'More / Credits'
         });
-        num_cues++;
+
+        num_cues += 1;
 
         $browse_list.append(browse_output);
-        $cue_nav.append(audio_output);
 
-        $browse_list.find('.browse0').click(open_intro_modal);
+        $browse_list.find('.browse-0').click(open_intro_modal);
         $browse_list.find('.browse-cue:last').click(open_end_modal);
     });
+}
+
+function goto_cue(id) {
+    if (id == 0) {
+        $player.jPlayer('pause', cue_data[id]['cue']);
+        open_intro_modal();
+    } else if (id == num_cues - 1) {
+        $player.jPlayer('pause', cue_data[id]['cue']);
+        open_end_modal();
+    } else {
+        $player.jPlayer('play', cue_data[id]['cue']);
+    }
+
+    var browse_text = $('.browse-' + id + ' a h2').text();
+
+    console.log($current_cue);
+    console.log(browse_text);
+
+    $current_cue.text(browse_text);
 }
 
 function browse_list_toggle(mode) {
@@ -188,11 +205,9 @@ function goto_next_cue() {
      */
     if (active_cue < (num_cues - 1)) {
         var id = active_cue + 1;
-        $player.jPlayer('play', cue_data[id]['cue']);;
-    } else {
-        active_cue = num_cues;
-        open_end_modal();
+        goto_cue(id);
     }
+
     return false;
 }
 
@@ -202,26 +217,22 @@ function goto_previous_cue() {
      */
     if (active_cue > 0) {
         var id = active_cue - 1;
-        $player.jPlayer('play', cue_data[id]['cue']);;
-    } else {
-        active_cue = 0;
-        open_intro_modal();
+        goto_cue(id);
     }
+
     return false;
 }
 
 function open_intro_modal() {
-    console.log('open_intro_modal');
-    console.log($modal_intro);
-    $modal_intro.modal();
     browse_list_toggle('close');
+    $modal_intro.modal();
     active_cue = 0;
 }
 
 function open_end_modal() {
-    $modal_end.modal();
     browse_list_toggle('close');
-    active_cue = num_cues;
+    $modal_end.modal();
+    active_cue = num_cues - 1;
 }
 
 $(function() {
@@ -234,8 +245,8 @@ $(function() {
 	$back = $('#back-btn');
 	$player = $('#pop-audio');
 	$browse_btn = $('#browse-btn');
+    $current_cue = $('#current-cue');
     $browse_list = $('#browse-list');
-    $cue_nav = $('#cue-nav');
     $modal_intro = $('#modal-intro');
     $modal_end = $('#modal-end');
 
@@ -253,15 +264,8 @@ $(function() {
 
     $browse_list.on('click', 'a', function() {
         var id = parseInt($(this).attr('data-id'));
-        if (cue_data[id]) {
-            $player.jPlayer('play', cue_data[id]['cue']);;
-            browse_list_toggle('close');
-        }
-    });
-
-    $cue_nav.on('click', '.cue-nav-item', function() {
-        var id = parseInt($(this).attr('data-id'));
-        $player.jPlayer('play', cue_data[id]['cue']);
+        goto_cue(id);
+        browse_list_toggle('close');
     });
 
     // Keyboard controls 
