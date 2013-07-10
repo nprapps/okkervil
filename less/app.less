@@ -327,13 +327,13 @@ a:hover, a:active { color: #36c; }
 .modal {
     margin: 0;
     width: 80%;
-    height: 80%;
+    height: 60%;
     left: 10%;
-    top: 10%;
+    top: 15%;
     border:none;
     border-radius:0;
     box-shadow:none;
-    background-color: @nav-color;
+    background-color: @map-background;
     border: none;
     
     a {
@@ -343,6 +343,19 @@ a:hover, a:active { color: #36c; }
     .modal-body {
         max-height: none;
         color: #999;
+    }
+    .modal-bottom {
+        position: absolute;
+        bottom: -22px;
+        left: 0;
+        width: 100%;
+
+        img {
+            display: block;
+            height: auto;
+            max-width: 100%;
+            margin: 0 auto;
+        }
     }
     .modal-header {
         padding: 12px 15px;
