@@ -19,7 +19,7 @@ var MAX_COORDS = xy(WIDTH, HEIGHT);
 var MARGIN = 0.30;
 var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH * MARGIN, -HEIGHT * MARGIN), xy(WIDTH + WIDTH * MARGIN, HEIGHT + HEIGHT * MARGIN));
 
-var AUDIO_LENGTH = 44;
+var AUDIO_LENGTH = 950;
 var PAN_DURATION = 2.0;
 
 // Elements
@@ -132,8 +132,8 @@ function setup_jplayer() {
     $player.jPlayer({
         ready: function () {
             $(this).jPlayer('setMedia', {
-                mp3: "http://apps.npr.org/sotomayor-family-photos/narration.mp3",
-                oga: "http://apps.npr.org/sotomayor-family-photos/narration.ogg"
+                mp3: "http://stage-apps.npr.org/okkervil/audio/mega.mp3",
+                //oga: "http://apps.npr.org/sotomayor-family-photos/narration.ogg"
             }).jPlayer("pause");
 
             load_cue_data();
@@ -173,13 +173,18 @@ function load_cue_data() {
         
         $.each(data, function(id, cue) {
             cue['id'] = id;
-            cue['width'] = 100 * parseFloat(cue['length']) / AUDIO_LENGTH;
-
             cue['show_number'] = (id != 0 && id != num_cues - 1);
+
+            console.log(cue['cue']);
+
+            var bits = cue['cue'].split(':');
+            cue['cue'] = (parseInt(bits[0]) * 60) + parseInt(bits[1]) + (parseInt(bits[2]) / 60)
+
+            console.log(cue['cue']);
 
             cue_data.push(cue);
             
-            var cue_time = parseFloat(cue["cue"]);
+            var cue_time = parseFloat(cue['cue']);
         
             // Markup for this cue and its entry in the cue nav
             // via Underscore template / JST
