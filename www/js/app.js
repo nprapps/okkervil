@@ -30,6 +30,7 @@ var $back;
 var $player;
 var $browse_btn;
 var $current_cue;
+var $current_time;
 var $browse_list;
 var $modal_intro;
 var $modal_end;
@@ -37,7 +38,7 @@ var $modal_end;
 // State
 var superzoom = null;
 var zoom_control = null;
-var audio_length = 7;
+var audio_length = 10;
 var num_cues = 0; 
 var active_cue = 0;
 var cue_data = [];
@@ -140,6 +141,11 @@ function setup_jplayer() {
         },
         pause: function() {
             unfreeze_superzoom();
+        },
+        timeupdate: function(e) {
+            var current_time = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
+            var elapsed_time = $.jPlayer.convertTime(Math.ceil(audio_length- e.jPlayer.status.currentTime));
+            $current_time.text(current_time + ' (' + elapsed_time + ')');
         },
         ended: function () {
             $(this).jPlayer("pause", audio_length - 1);
@@ -310,6 +316,7 @@ $(function() {
 	$player = $('#pop-audio');
 	$browse_btn = $('#browse-btn');
     $current_cue = $('#current-cue');
+    $current_time = $('#audio .current-time');
     $browse_list = $('#browse-list');
     $modal_intro = $('#modal-intro');
     $modal_end = $('#modal-end');
