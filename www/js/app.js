@@ -7,16 +7,18 @@ function xy(x, y) {
 }
 
 // Constants
-var WIDTH = 3772;
-var HEIGHT = 1845;
+var WIDTH = 7933;
+var HEIGHT = 4550;
 var MIN_ZOOM = 0;
-var DEFAULT_ZOOM = 3;
+var DEFAULT_ZOOM = 1;
 var MAX_ZOOM = 4;
 var COORDINATE_MULTIPLIER = 1 / Math.pow(2, MAX_ZOOM - MIN_ZOOM);
 var MIN_COORDS = new L.LatLng(0, 0);
 var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
 var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH / 2, -HEIGHT / 2), xy(WIDTH + WIDTH / 2, HEIGHT + HEIGHT / 2));
+
+var AUDIO_LENGTH = 10;
 var PAN_DURATION = 1.0;
 
 // Elements
@@ -38,7 +40,6 @@ var $modal_end;
 // State
 var superzoom = null;
 var zoom_control = null;
-var audio_length = 10;
 var num_cues = 0; 
 var active_cue = 0;
 var cue_data = [];
@@ -144,11 +145,11 @@ function setup_jplayer() {
         },
         timeupdate: function(e) {
             var current_time = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
-            var elapsed_time = $.jPlayer.convertTime(Math.ceil(audio_length- e.jPlayer.status.currentTime));
+            var elapsed_time = $.jPlayer.convertTime(Math.ceil(AUDIO_LENGTH- e.jPlayer.status.currentTime));
             $current_time.text(current_time + ' (' + elapsed_time + ')');
         },
         ended: function () {
-            $(this).jPlayer("pause", audio_length - 1);
+            $(this).jPlayer("pause", AUDIO_LENGTH - 1);
         },
         swfPath: "js",
         supplied: "oga, mp3"
@@ -169,7 +170,7 @@ function load_cue_data() {
         
         $.each(data, function(id, cue) {
             cue['id'] = id;
-            cue['width'] = 100 * parseFloat(cue['length']) / audio_length;
+            cue['width'] = 100 * parseFloat(cue['length']) / AUDIO_LENGTH;
 
             cue['show_number'] = (id != 0 && id != num_cues - 1);
 

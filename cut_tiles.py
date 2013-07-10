@@ -10,7 +10,7 @@ MIN_ZOOM = 0
 MAX_ZOOM = 4
 
 # Open original image
-full_image = Image.open('www/img/okkervil.lpjacket-html.jpg')
+full_image = Image.open('maplayersLPsize.png')
 full_width, full_height = full_image.size
 
 zoom = MAX_ZOOM 
