@@ -19,7 +19,7 @@ var MAX_COORDS = xy(WIDTH, HEIGHT);
 var MARGIN = 0.30;
 var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH * MARGIN, -HEIGHT * MARGIN), xy(WIDTH + WIDTH * MARGIN, HEIGHT + HEIGHT * MARGIN));
 
-var AUDIO_LENGTH = 22;
+var AUDIO_LENGTH = 44;
 var PAN_DURATION = 2.0;
 
 // Elements
