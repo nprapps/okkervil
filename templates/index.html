@@ -19,17 +19,11 @@
 {% endblock %}
 
 {% block outer_content %}
-<div id="fb-root"></div>
-
 <div id="nav">
     <div class="nav-primary">
         <ul class="site-links">
             <li class="npr"><a href="http://npr.org/music"><img src="img/npr_music.png"></a></li>
             <li class="project-name">{{ PROJECT_NAME }}</li>
-        </ul>
-        <ul class="social-links">
-            <li class="twitter"><a rel="external" href="http://twitter.com/share?text=Bob+Boilen's+Wristbands+2012,+from+@nprmusic+%26+@allsongs.&amp;url=http%3A%2F%2Fapps.npr.org%2Fbobs-boilens-wristbands-2012%2F" alt="Share on Twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Social', 'Click Twitter In Navbar', 'Bob\'s Concert Tickets']);">Share This Page On Twitter</a></li>
-            <li class="facebook"><a rel="external" href="http://www.facebook.com/sharer/sharer.php?t=Bob+Boilen's+Wristbands+2012,+from+NPR+Music.&amp;u=http%3A%2F%2Fapps.npr.org%2Fbob-boilens-wristbands-2012%2F" alt="Share on Facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Social', 'Click Facebook In Navbar', 'Bob\'s Concert Tickets']);">Like This Page On Facebook</a></li>
         </ul>
     </div>
     <div class="nav-audio">
@@ -82,6 +76,11 @@
         <p>{{ COPY.content.modal_end_body }}</p>
         <p class="credits">{{ COPY.content.modal_end_credits }}</p>
         <p class="more">{{ COPY.content.modal_end_play_button }} &rsaquo;</p>
+
+        <ul class="share-buttons">
+            <li class="twitter"><a rel="external" href="http://twitter.com/share?text={{ TWITTER.TEXT|urlencode }}&amp;url={{ TWITTER.URL|urlencode }}" alt="Share on Twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Social', 'Click Twitter In Navbar', '{{ PROJECT_NAME }}']);">Share This On Twitter</a></li>
+            <li class="facebook"><a rel="external" href="https://www.facebook.com/dialog/feed?app_id={{ FACEBOOK.APP_ID }}&amp;link={{ FACEBOOK.URL|urlencode }}&amp;name={{ FACEBOOK.TITLE|urlencode }}&amp;picture={{ FACEBOOK.IMAGE_URL|urlencode }}&amp;redirect_uri={{ FACEBOOK.URL|urlencode }}" alt="Share on Facebook" target="_blank" onclick="_gaq.push(['_trackEvent', 'Social', 'Click Facebook In Navbar', '{{ PROJECT_NAME }}']);">Like This On Facebook</a></li>
+        </ul>
     </div>
 </div>
 
