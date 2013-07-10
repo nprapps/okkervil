@@ -69,7 +69,7 @@ function setup_superzoom() {
     superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
     
     // load intro modal
-    open_intro_modal();
+    //open_intro_modal();
 }
 
 function superzoom_to(x, y, zoom) {
@@ -110,17 +110,10 @@ function load_cue_data() {
     var browse_output = '';
     
     $.getJSON('cues.json', function(data) {
-
-        browse_output += JST.browse({
-            'id': 0,
-            'name': 'Introduction'
-        });
-        cue_data.push(undefined);
-
         num_cues += data.length;
         
         $.each(data, function(id, cue) {
-            cue['id'] = id + 1;
+            cue['id'] = id;
             cue['width'] = 100 * parseFloat(cue['length']) / audio_length;
             cue_data.push(cue);
             
@@ -133,12 +126,9 @@ function load_cue_data() {
             // Popcorn cuepoint for this cue
             pop.code({
                 start: cue_time,
-                end: cue_time + .5,
+                end: cue_time + .1,
                 onStart: function(options) {         
-                    active_cue = cue['id'];
-                    var x = parseInt(cue['x']);
-                    var y = parseInt(cue['y']);
-                    superzoom_to(x, y, MAX_ZOOM);
+                    goto_cue(id, true);
 
                     return false;
                 }
@@ -146,37 +136,49 @@ function load_cue_data() {
             
         });
 
-        // Append credits to drop-down nav
-        browse_output += JST.browse({
-            'id': num_cues + 1,
-            'name': 'More / Credits'
-        });
-
-        num_cues += 1;
-
         $browse_list.append(browse_output);
 
         $browse_list.find('.browse-0').click(open_intro_modal);
         $browse_list.find('.browse-cue:last').click(open_end_modal);
+
+        update_current_cue(0);
     });
 }
 
-function goto_cue(id) {
+function goto_cue(id, dont_move_playhead) {
+    /*
+     * Jump to a cue and update all display info, including superzoom.
+     */
+    var cue = cue_data[id];
+    var x = parseInt(cue['x']);
+    var y = parseInt(cue['y']);
+
     if (id == 0) {
-        $player.jPlayer('pause', cue_data[id]['cue']);
+        $player.jPlayer('pause', cue['cue']);
         open_intro_modal();
+        superzoom_to(x, y, DEFAULT_ZOOM);
     } else if (id == num_cues - 1) {
-        $player.jPlayer('pause', cue_data[id]['cue']);
+        $player.jPlayer('pause', cue['cue']);
         open_end_modal();
+        superzoom_to(x, y, DEFAULT_ZOOM);
     } else {
-        $player.jPlayer('play', cue_data[id]['cue']);
+        if (!dont_move_playhead) {
+            $player.jPlayer('play', cue['cue']);
+        }
+    
+        superzoom_to(x, y, MAX_ZOOM);
     }
+    
+    update_current_cue(id);
 
+    active_cue = id;
+}
+
+function update_current_cue(id) {
+    /*
+     * Update the display of the current cue name.
+     */
     var browse_text = $('.browse-' + id + ' a h2').text();
-
-    console.log($current_cue);
-    console.log(browse_text);
-
     $current_cue.text(browse_text);
 }
 
