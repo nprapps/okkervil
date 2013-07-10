@@ -10,16 +10,17 @@ function xy(x, y) {
 var WIDTH = 7933;
 var HEIGHT = 4550;
 var MIN_ZOOM = 0;
-var DEFAULT_ZOOM = 1;
+var DEFAULT_ZOOM = 3;
 var MAX_ZOOM = 4;
 var COORDINATE_MULTIPLIER = 1 / Math.pow(2, MAX_ZOOM - MIN_ZOOM);
 var MIN_COORDS = new L.LatLng(0, 0);
 var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
-var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH / 2, -HEIGHT / 2), xy(WIDTH + WIDTH / 2, HEIGHT + HEIGHT / 2));
+var MARGIN = 0.30;
+var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH * MARGIN, -HEIGHT * MARGIN), xy(WIDTH + WIDTH * MARGIN, HEIGHT + HEIGHT * MARGIN));
 
-var AUDIO_LENGTH = 10;
-var PAN_DURATION = 1.0;
+var AUDIO_LENGTH = 22;
+var PAN_DURATION = 2.0;
 
 // Elements
 var $superzoom;
@@ -84,9 +85,6 @@ function setup_superzoom() {
         //shadowSize: [68, 95],
         //shadowAnchor: [22, 94]
     });
-
-    // Load!
-    superzoom.setView(CENTER_COORDS, DEFAULT_ZOOM);
 }
 
 function superzoom_to(x, y, zoom) {
@@ -195,7 +193,6 @@ function load_cue_data() {
                     return false;
                 }
             });
-            
         });
 
         $browse_list.append(browse_output);
@@ -204,6 +201,9 @@ function load_cue_data() {
         $browse_list.find('.browse-cue:last').click(open_end_modal);
 
         update_current_cue(0);
+
+        // Set initial map position
+        superzoom.setView(xy(cue_data[0]['x'], cue_data[0]['y']), DEFAULT_ZOOM);
     });
 }
 
@@ -223,19 +223,17 @@ function goto_cue(id) {
     if (id == 0) {
         $player.jPlayer('pause', cue['cue']);
         open_intro_modal();
-        superzoom_to(x, y, DEFAULT_ZOOM);
     } else if (id == num_cues - 1) {
         $player.jPlayer('pause', cue['cue']);
         open_end_modal();
-        superzoom_to(x, y, DEFAULT_ZOOM);
     } else {
         marker = new L.Marker(xy(x, y), {
             icon: icon 
         });
         marker.addTo(superzoom);
-
-        superzoom_to(x, y, MAX_ZOOM);
     }
+        
+    superzoom_to(x, y, DEFAULT_ZOOM);
 
     update_current_cue(id);
 
