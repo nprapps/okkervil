@@ -15,9 +15,8 @@ var COORDINATE_MULTIPLIER = 1 / Math.pow(2, MAX_ZOOM - MIN_ZOOM);
 var MIN_COORDS = new L.LatLng(0, 0);
 var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
-var MARGIN = 0.30;
-var GUIDED_MAX_BOUNDS = new L.LatLngBounds(xy(0, 0), xy(WIDTH, HEIGHT));
-var EXPLORE_MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH * MARGIN, -HEIGHT * MARGIN), xy(WIDTH + WIDTH * MARGIN, HEIGHT + HEIGHT * MARGIN));
+var MARGIN = 100;
+var MAX_BOUNDS = new L.LatLngBounds(xy(0, 0), xy(WIDTH, HEIGHT));
 
 var AUDIO_LENGTH = 950;
 var PAN_DURATION = 2.0;
@@ -58,7 +57,7 @@ function setup_superzoom() {
     superzoom = L.map('superzoom', {
         minZoom: MIN_ZOOM,
         maxZoom: MAX_ZOOM,
-        maxBounds: GUIDED_MAX_BOUNDS,
+        maxBounds: MAX_BOUNDS,
         crs: L.CRS.Simple,
         zoomControl: false,
         attributionControl: false
@@ -117,7 +116,12 @@ function freeze_superzoom() {
     zoom_control.removeFrom(superzoom);
     $superzoom.addClass('frozen');
 
-    superzoom.setMaxBounds(GUIDED_MAX_BOUNDS);
+    superzoom.setMaxBounds(MAX_BOUNDS);
+
+    // Restore cue position if we've been exploring mid-way through
+    if (active_cue > 0 && active_cue < num_cues - 1) {
+        goto_cue(active_cue);
+    }
 }
 
 function unfreeze_superzoom() {
@@ -138,7 +142,13 @@ function unfreeze_superzoom() {
     zoom_control.addTo(superzoom);
     $superzoom.removeClass('frozen');
     
-    superzoom.setMaxBounds(EXPLORE_MAX_BOUNDS);
+    superzoom.setMaxBounds(null);
+
+    // Clear any visible markers so they don't ugly things up
+    if (marker) {
+        superzoom.removeLayer(marker);
+        marker = null;
+    }
 }
 
 function setup_jplayer() {
