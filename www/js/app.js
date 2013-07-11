@@ -291,13 +291,15 @@ function goto_cue(id) {
                 'background-position': left + 'px ' + top + 'px'
             }).show();
 
-            var streetview_left = (pt.x - 50) - nw_pt.x;
-            var streetview_top = (pt.y - 25) - nw_pt.y + 50;
+            if (cue_data[id]['streetview_iframe']) {
+                var streetview_left = (pt.x - 50) - nw_pt.x;
+                var streetview_top = (pt.y - 25) - nw_pt.y + 50;
 
-            $streetview_link.css({
-                'left': streetview_left,
-                'top': streetview_top 
-            }).show();
+                $streetview_link.css({
+                    'left': streetview_left,
+                    'top': streetview_top 
+                }).show();
+            }
 
             superzoom.off('moveend', handler);
         }
@@ -434,8 +436,10 @@ $(function() {
     });
 
     $streetview_link.on('click', 'a', function() {
-        $streetview.find('iframe').attr('src', 'https://maps.google.com/maps?ie=UTF8&gl=us&daddr=5+Mitchell+Dr,+Meriden,+NH+03770&panel=1&f=d&fb=1&dirflg=d&geocode=0,43.547083,-72.258782&cid=0,0,18248494580631594011&hq=meriden+congregational+church&hnear=meriden+congregational+church&ll=43.547083,-72.258782&spn=0.006295,0.008685&t=m&layer=c&cbll=43.546849,-72.25876&panoid=erk_aKVOAGMitGijDBqvxw&cbp=12,45.56,,0,3.57&source=embed&output=svembed');
-        $streetview.find('a').attr('href', 'https://maps.google.com/maps?ie=UTF8&gl=us&daddr=5+Mitchell+Dr,+Meriden,+NH+03770&panel=1&f=d&fb=1&dirflg=d&geocode=0,43.547083,-72.258782&cid=0,0,18248494580631594011&hq=meriden+congregational+church&hnear=meriden+congregational+church&ll=43.547083,-72.258782&spn=0.006295,0.008685&t=m&layer=c&cbll=43.546849,-72.25876&panoid=erk_aKVOAGMitGijDBqvxw&cbp=12,45.56,,0,3.57&source=embed');
+        var cue = cue_data[active_cue];
+
+        $streetview.find('iframe').attr('src', cue['streetview_iframe']);
+        $streetview.find('a').attr('href', cue['streetview_href']);
         $streetview.show();
     });
 
