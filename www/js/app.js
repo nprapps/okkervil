@@ -41,6 +41,8 @@ var $start_btn;
 var $modal_end;
 var $end_btn;
 var $vignette;
+var $streetview_link;
+var $streetview;
 
 // State
 var superzoom = null;
@@ -167,7 +169,8 @@ function unfreeze_superzoom() {
     
     superzoom.setMaxBounds(null);
 
-    // Clear vignette
+    $streetview_link.hide();
+    $streetview.hide();
     $vignette.hide();
 }
 
@@ -263,6 +266,8 @@ function goto_cue(id) {
     var x = parseInt(cue['x']);
     var y = parseInt(cue['y']);
 
+    $streetview_link.hide();
+    $streetview.hide();
     $vignette.hide();
 
     if (id == 0) {
@@ -285,6 +290,14 @@ function goto_cue(id) {
 
             $vignette.css({
                 'background-position': left + 'px ' + top + 'px'
+            }).show();
+
+            var streetview_left = (pt.x - 50) - nw_pt.x;
+            var streetview_top = (pt.y - 25) - nw_pt.y + 50;
+
+            $streetview_link.css({
+                'left': streetview_left,
+                'top': streetview_top 
             }).show();
 
             superzoom.off('moveend', handler);
@@ -389,6 +402,8 @@ $(function() {
     $modal_end = $('#modal-end');
     $end_btn = $modal_end.find('.play-btn');
     $vignette = $('#vignette');
+    $streetview_link = $('#streetview-link');
+    $streetview = $('#streetview');
 
     // Setup the zoomer
     setup_superzoom()
@@ -417,6 +432,12 @@ $(function() {
         var id = parseInt($(this).attr('data-id'));
         $player.jPlayer('play', cue_data[id]['cue']);
         browse_list_toggle('close');
+    });
+
+    $streetview_link.on('click', 'a', function() {
+        $streetview.find('iframe').attr('src', 'https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Meriden+Congregational+Church&amp;aq=&amp;sll=38.893596,-77.014576&amp;sspn=0.65146,0.617294&amp;ie=UTF8&amp;hq=Meriden+Congregational+Church&amp;ll=43.547082,-72.258782&amp;spn=0.016175,0.032015&amp;t=m&amp;layer=c&amp;cbll=43.546876,-72.257853&amp;panoid=Q7dD2LiMx2w6tTlwj8_tAg&amp;cbp=12,318.79,,0,-3.01&amp;output=svembed');
+        $streetview.find('a').attr('href', 'https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Meriden+Congregational+Church&amp;aq=&amp;sll=38.893596,-77.014576&amp;sspn=0.65146,0.617294&amp;ie=UTF8&amp;hq=Meriden+Congregational+Church&amp;ll=43.547082,-72.258782&amp;spn=0.016175,0.032015&amp;t=m&amp;layer=c&amp;cbll=43.546876,-72.257853&amp;panoid=Q7dD2LiMx2w6tTlwj8_tAg&amp;cbp=12,318.79,,0,-3.01');
+        $streetview.show();
     });
 
     // Keyboard controls 
