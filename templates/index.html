@@ -35,17 +35,17 @@
                 
                         <div class="jp-gui jp-interface">
                             <div class="jp-controls">
+                                <div id="back-btn" class="nav-btn back-next" title="Back"><i class="icon-backward icon-white">back</i></div>
                                 <a href="javascript:;" class="jp-play nav-btn" tabindex="1"><i class="icon-play icon-white">play</i></a>
                                 <a href="javascript:;" class="jp-pause nav-btn" tabindex="1" style="display: none;"><i class="icon-pause icon-white">pause</i></a>
+                                <div id="next-btn" class="nav-btn back-next" title="Next"><i class="icon-forward icon-white">next</i></div>
                             </div>
+                            <div id="browse-btn" class="nav-btn"><i class="icon-th-list icon-white"></i><div id="current-cue">{{ COPY.cues[0].name }}</div></div>
                             <div class="current-time"></div>
                         </div>
                     </div>
                 </div>
         </div>
-        <div id="browse-btn" class="nav-btn"><i class="icon-th-list icon-white"></i><div id="current-cue">{{ COPY.cues[0].name }}</div></div>
-        <div id="next-btn" class="nav-btn back-next" title="Next"><span>Next&nbsp;</span>&rsaquo;</div>
-        <div id="back-btn" class="nav-btn back-next" title="Back">&lsaquo;<span>&nbsp;Back</span></div>
     </div>
 </div>
 

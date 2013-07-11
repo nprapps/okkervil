@@ -194,7 +194,6 @@ function setup_jplayer() {
             var current_time = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
             var elapsed_time = $.jPlayer.convertTime(Math.ceil(AUDIO_LENGTH- e.jPlayer.status.currentTime));
             var total_time = $.jPlayer.convertTime(Math.ceil(AUDIO_LENGTH));
-//            $current_time.text(current_time + ' (' + elapsed_time + ')');
             $current_time.text(current_time + ' / ' + total_time);
         },
         ended: function () {
@@ -409,7 +408,7 @@ $(function() {
         $modal_intro.modal('hide');
         $player.jPlayer('play');
     });
-
+    
     $end_btn.click(function() {
         $modal_end.modal('hide');
     });
