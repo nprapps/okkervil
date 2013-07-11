@@ -106,8 +106,14 @@ function freeze_superzoom() {
     superzoom.dragging.disable();
     superzoom.touchZoom.disable();
     superzoom.doubleClickZoom.disable();
+    superzoom.scrollWheelZoom.disable();
     superzoom.boxZoom.disable();
     superzoom.keyboard.disable();
+
+    if (superzoom.tap) {
+        superzoom.tap.disable();
+    }
+
     zoom_control.removeFrom(superzoom);
     $superzoom.addClass('frozen');
 
@@ -121,8 +127,14 @@ function unfreeze_superzoom() {
     superzoom.dragging.enable();
     superzoom.touchZoom.enable();
     superzoom.doubleClickZoom.enable();
+    superzoom.scrollWheelZoom.enable();
     superzoom.boxZoom.enable();
     superzoom.keyboard.enable();
+
+    if (superzoom.tap) {
+        superzoom.tap.enable();
+    }
+
     zoom_control.addTo(superzoom);
     $superzoom.removeClass('frozen');
     
