@@ -20,39 +20,14 @@
     {{ CSS.push('less/app.less') }}
     {{ CSS.render('css/app.min.css') }}
 
-    <!-- AD CODE -->
-    <script>
-        NPR = {};
-        NPR.PageInfo = {};
-        NPR.PageInfo.getUrlParameter = function (param) {
-            return false;
-        };
-    </script>
-
     <!-- JS -->
     {{ JS.push('js/app_config.js') }}
     {{ JS.push('js/console.js') }}
     {{ JS.push('js/lib/jquery-1.8.3.js') }}
     {{ JS.push('js/lib/html5.js') }}
     {{ JS.push('js/lib/modernizr.js') }}
-    {{ JS.push('js/responsive-ad.js') }}
     {% block extra_head_js %}{% endblock extra_head_js %}
     {{ JS.render('js/app-header.min.js') }}
-
-    <script>
-        AddNamespace('NPR.serverVars');
-        jQuery.extend(NPR.serverVars, {
-            "storyId": "{{ NPR_DFP.STORY_ID }}",
-            "serverType": "prod",
-            "DFPtarget": "{{ NPR_DFP.TARGET }}",
-            "DFPuserver": "u.npr.org",
-            "DFPserver": "ad.doubleclick.net",
-            "DFPnetwork": "n6735",
-            "DFPsite": "NPR",
-            "DFPmobile": "NPR.MOBILE",
-            "facebookAppId": "{{ FACEBOOK.APP_ID }}"
-        });
-    </script>
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@nprapps">
