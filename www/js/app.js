@@ -454,6 +454,10 @@ $(function() {
                 $player.jPlayer('pause');
             }
             return false;
+        } else if (ev.which == 27) {
+            if ($streetview.is(':visible')) {
+                $streetview.hide();
+            }
         }
 
         return true;
