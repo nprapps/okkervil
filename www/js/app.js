@@ -10,14 +10,14 @@ function xy(x, y) {
 var WIDTH = 7933;
 var HEIGHT = 4550;
 var MIN_ZOOM = 0;
-var DEFAULT_ZOOM = 3;
 var MAX_ZOOM = 4;
 var COORDINATE_MULTIPLIER = 1 / Math.pow(2, MAX_ZOOM - MIN_ZOOM);
 var MIN_COORDS = new L.LatLng(0, 0);
 var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
 var MARGIN = 0.30;
-var MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH * MARGIN, -HEIGHT * MARGIN), xy(WIDTH + WIDTH * MARGIN, HEIGHT + HEIGHT * MARGIN));
+var GUIDED_MAX_BOUNDS = new L.LatLngBounds(xy(0, 0), xy(WIDTH, HEIGHT));
+var EXPLORE_MAX_BOUNDS = new L.LatLngBounds(xy(-WIDTH * MARGIN, -HEIGHT * MARGIN), xy(WIDTH + WIDTH * MARGIN, HEIGHT + HEIGHT * MARGIN));
 
 var AUDIO_LENGTH = 950;
 var PAN_DURATION = 2.0;
@@ -58,7 +58,7 @@ function setup_superzoom() {
     superzoom = L.map('superzoom', {
         minZoom: MIN_ZOOM,
         maxZoom: MAX_ZOOM,
-        maxBounds: MAX_BOUNDS,
+        maxBounds: GUIDED_MAX_BOUNDS,
         crs: L.CRS.Simple,
         zoomControl: false,
         attributionControl: false
@@ -110,6 +110,8 @@ function freeze_superzoom() {
     superzoom.keyboard.disable();
     zoom_control.removeFrom(superzoom);
     $superzoom.addClass('frozen');
+
+    superzoom.setMaxBounds(GUIDED_MAX_BOUNDS);
 }
 
 function unfreeze_superzoom() {
@@ -123,6 +125,8 @@ function unfreeze_superzoom() {
     superzoom.keyboard.enable();
     zoom_control.addTo(superzoom);
     $superzoom.removeClass('frozen');
+    
+    superzoom.setMaxBounds(EXPLORE_MAX_BOUNDS);
 }
 
 function setup_jplayer() {
@@ -210,7 +214,7 @@ function load_cue_data() {
         update_current_cue(0);
 
         // Set initial map position
-        superzoom.setView(xy(cue_data[0]['x'], cue_data[0]['y']), DEFAULT_ZOOM);
+        superzoom.setView(xy(cue_data[0]['x'], cue_data[0]['y']), cue_data[0]['zoom']);
     });
 }
 
@@ -240,7 +244,7 @@ function goto_cue(id) {
         marker.addTo(superzoom);
     }
         
-    superzoom_to(x, y, DEFAULT_ZOOM);
+    superzoom_to(x, y, cue['zoom']);
 
     update_current_cue(id);
 
