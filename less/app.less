@@ -487,12 +487,25 @@ a:hover, a:active { color: #36c; }
 @media (max-width: 480px) {
     #browse-btn {
         width: @button-height;
+        border-right: 1px solid @nav-border-color;
 
         #current-cue { display: none; }
     }
 	.modal {
 	    top: 11px;
-	
+	    
+	    h3 {
+	        font-size: 32px;
+	        margin-bottom: 22px;
+	    }
+	    p { font-size: 14px; }
+	    .modal-body { padding-top: 44px; }
+	    .modal-bottom { bottom: -11px; }
+        .share-buttons {
+            li { width: auto; float: none; }
+            a { margin-bottom: 2px; }
+            li.twitter a { margin-right: 0; }
+        }
 	    &#modal-intro {
 	        min-height: auto;
 	        h1 { font-size: 36px; }
@@ -503,13 +516,5 @@ a:hover, a:active { color: #36c; }
 	            padding-bottom: 66px;
 	        }
 	    }
-	    .modal-bottom {
-	        bottom: -11px;
-	    }
-        .share-buttons {
-            li { width: auto; float: none; }
-            a { margin-bottom: 2px; }
-            li.twitter a { margin-right: 0; }
-        }
 	}
 }
