@@ -53,7 +53,7 @@
 
 <div id="superzoom"></div>
 
-<div class="modal hide" id="modal-intro">
+<div class="modal hide" id="modal-intro" data-backdrop="static">
     <div class="modal-header">
         <h3>{{ PROJECT_NAME }}</h3>
     </div>
@@ -66,10 +66,7 @@
     </div>
 </div>
 
-<div class="modal hide" id="modal-end">
-    <div class="modal-header">
-        <h3>{{ COPY.content.modal_end_title }}</h3>
-    </div>
+<div class="modal hide" id="modal-end" data-backdrop="static">
     <div class="modal-body">
         <p>{{ COPY.content.modal_end_body }}</p>
         <p class="credits">{{ COPY.content.modal_end_credits }}</p>
