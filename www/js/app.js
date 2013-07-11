@@ -344,7 +344,9 @@ $(function() {
 
     // Event handlers
 	$browse_btn.click(browse_list_toggle);
-	$browse_list.mouseleave(browse_list_toggle);
+	$browse_list.mouseleave(function() {
+        browse_list_toggle('close');
+    });
     $next.click(goto_next_cue);
 	$back.click(goto_previous_cue);
 
