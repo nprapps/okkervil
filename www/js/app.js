@@ -73,8 +73,7 @@ function setup_superzoom() {
 
     //var tiles = L.tileLayer('/img/tiles/{z}/{x}/{y}.jpg', {
     var tiles = L.tileLayer('http://{s}.npr.org/okkervil/img/tiles/{z}/{x}/{y}.jpg', {
-        //subdomains: ['apps', 'apps2'],
-        subdomains: ['stage-apps'],
+        subdomains: ['apps', 'apps2'],
         continuousWorld: true,
         noWrap: true
     }).addTo(superzoom);
@@ -181,8 +180,8 @@ function setup_jplayer() {
     $player.jPlayer({
         ready: function () {
             $(this).jPlayer('setMedia', {
-                mp3: "http://stage-apps.npr.org/okkervil/audio/mega.mp3",
-                //oga: "http://apps.npr.org/sotomayor-family-photos/narration.ogg"
+                mp3: "http://apps.npr.org/okkervil/audio/mega.mp3",
+                //oga: "http://apps.npr.org/okkervil/audio/mega.ogg"
             }).jPlayer("pause");
 
             load_cue_data();
