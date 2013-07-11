@@ -54,12 +54,10 @@
 <div id="superzoom"></div>
 
 <div class="modal hide" id="modal-intro" data-backdrop="static">
-    <div class="modal-header">
-        <h3>{{ PROJECT_NAME }}</h3>
-    </div>
     <div class="modal-body">
+        <h1>{{ PROJECT_NAME }}</h1>
         <p>{{ COPY.content.modal_intro_body }}</p>
-        <p><a class="more">{{ COPY.content.modal_intro_play_button }} &rsaquo;</a></p>
+        <p><a class="play-btn">{{ COPY.content.modal_intro_play_button }} &rsaquo;</a></p>
     </div>
     <div class="modal-bottom">
         <img src="img/modal-bottom-banner.png" alt="Meridien, N.H. - 1984" />
@@ -68,9 +66,10 @@
 
 <div class="modal hide" id="modal-end" data-backdrop="static">
     <div class="modal-body">
+        <h3>{{ COPY.content.modal_end_title }}</h3>
         <p>{{ COPY.content.modal_end_body }}</p>
         <p class="credits">{{ COPY.content.modal_end_credits }}</p>
-        <p><a class="more">{{ COPY.content.modal_end_play_button }} &rsaquo;</a></p>
+        <p><a class="play-btn">{{ COPY.content.modal_end_play_button }} &rsaquo;</a></p>
 
         <ul class="share-buttons">
             <li class="twitter"><a rel="external" href="http://twitter.com/share?text={{ TWITTER.TEXT|urlencode }}&amp;url={{ TWITTER.URL|urlencode }}" alt="Share on Twitter" target="_blank" onclick="_gaq.push(['_trackEvent', 'Social', 'Click Twitter In Navbar', '{{ PROJECT_NAME }}']);">Share This On Twitter</a></li>

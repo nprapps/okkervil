@@ -303,24 +303,65 @@ a:hover, a:active { color: #36c; }
 // Modal
 .modal {
     margin: 0;
-    width: 80%;
-    height: 60%;
-    left: 10%;
-    top: 15%;
+    width: 90%;
+    left: 5%;
+    top: 10%;
     border:none;
     border-radius:0;
-    box-shadow:none;
-    background-color: @map-background-color;
+    box-shadow: none;
     border: none;
+    background: @map-background-color url('@{img-root}/lpjacket-bw.png') no-repeat 50% 50%;
+    background-size: cover;
     
+    h1, h3, p, ul {
+        max-width: 450px;
+    }
+    h1, h3 {
+        font-size: 36px;
+        font-family: Georgia, serif;
+        line-height: 1.2;
+        color: #eee;
+        font-weight:normal;
+        margin: 0 auto 33px auto;
+    }
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin: 0 auto 22px auto;
+
+        &.credits {
+            font-size: 12px;
+            color: #787878;
+        }
+    }
     a {
         color: @nav-text-color;
         font-weight: bold;
+        
+        &.play-btn {
+            display: inline-block;
+            font-weight: normal;
+            margin-top: 22px;
+            padding: 0 22px;
+            line-height: @button-height;
+            font-size: 20px;
+            background: @nav-button-color;
+            color: @nav-text-color;
+            
+            &:hover {
+                background: @nav-button-hover;
+                color: @nav-text-hover;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
     }
     .modal-body {
         max-height: none;
-        color: #999;
         overflow-y: visible;
+        padding: 66px 22px 33px 22px;
+        color: #999;
+        text-align: center;
     }
     .modal-bottom {
         position: absolute;
@@ -331,39 +372,19 @@ a:hover, a:active { color: #36c; }
         img {
             display: block;
             height: auto;
-            max-width: 100%;
+            max-width: 90%;
             margin: 0 auto;
-        }
-    }
-    .modal-header {
-        padding: 12px 15px;
-        border-bottom:none;
-
-        .close {
-            height:30px;
-            width:30px;
-            background-image: url(@icon-sprite);
-            background-repeat: no-repeat;
-            background-position: 0 -250px;
-            opacity:1;
-            &:hover { opacity: .7; }
-        }
-        h3 {
-            font-size: 24px;
-            font-family: Georgia, serif;
-            line-height: 32px;
-            color: #eee;
-            font-weight:normal;
         }
     }
     .share-buttons {
         list-style: none; 
-        margin: 44px 0 0 0;
+        margin: 88px auto 0 auto;
         padding: 0;
 
         li { 
             width: 50%; 
             float: left;
+            text-align: left;
         }
         a { 
             display: block;
@@ -391,10 +412,26 @@ a:hover, a:active { color: #36c; }
         }
         &:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
     }
+    &#modal-intro {
+        min-height: 65%;
+
+        h1 {
+            font-size: 54px;
+        }
+        p {
+            font-size: 20px;
+        }
+        .modal-body {
+            padding-top: 66px;
+            padding-bottom: 88px;
+        }
+    }
 }
 
 .modal-backdrop {
     background-color: #111;
+    opacity: .95;
+    filter: alpha(opacity=95);
 }
 
 
@@ -426,7 +463,16 @@ a:hover, a:active { color: #36c; }
     .leaflet-top { top: 113px; }
 }
 @media (max-width: 767px) {
-    body { padding-left: 0; padding-right: 0; }
+    body { 
+        padding-left: 0; 
+        padding-right: 0;
+    }
+	.modal {
+	    &#modal-intro {
+	        h1 { font-size: 42px; }
+	        p { font-size: 18px; }
+	    }
+	}
 	.nav-btn.back-next {
 	    font-size: 28px;
 	    font-weight: normal;
@@ -441,12 +487,34 @@ a:hover, a:active { color: #36c; }
 @media (max-width: 480px) {
     #browse-btn {
         width: @button-height;
+        border-right: 1px solid @nav-border-color;
 
         #current-cue { display: none; }
     }
-	.modal .share-buttons {
-		li { width: auto; float: none; }
-		a { margin-bottom: 2px; }
-		li.twitter a { margin-right: 0; }
+	.modal {
+	    top: 11px;
+	    
+	    h3 {
+	        font-size: 32px;
+	        margin-bottom: 22px;
+	    }
+	    p { font-size: 14px; }
+	    .modal-body { padding-top: 44px; }
+	    .modal-bottom { bottom: -11px; }
+        .share-buttons {
+            li { width: auto; float: none; }
+            a { margin-bottom: 2px; }
+            li.twitter a { margin-right: 0; }
+        }
+	    &#modal-intro {
+	        min-height: auto;
+	        h1 { font-size: 36px; }
+	        p { font-size: 16px; }
+	        
+	        .modal-body { 
+	            padding-top: 44px;
+	            padding-bottom: 66px;
+	        }
+	    }
 	}
 }

@@ -328,9 +328,9 @@ $(function() {
     $current_time = $('#audio .current-time');
     $browse_list = $('#browse-list');
     $modal_intro = $('#modal-intro');
-    $start_btn = $modal_intro.find('.more');
+    $start_btn = $modal_intro.find('.play-btn');
     $modal_end = $('#modal-end');
-    $end_btn = $modal_end.find('.more');
+    $end_btn = $modal_end.find('.play-btn');
 
     // Setup the zoomer
     setup_superzoom()
@@ -367,7 +367,7 @@ $(function() {
         } else if (ev.which == 39) {
             goto_next_cue();
             return false;
-        } else if (ev.which == 32 && audio_supported) {
+        } else if (ev.which == 32) {
             if ($player.data().jPlayer.status.paused) {
                 $player.jPlayer('play');
             } else {
