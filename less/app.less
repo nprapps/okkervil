@@ -131,7 +131,8 @@ a:hover, a:active { color: #36c; }
         line-height: @nav-height;
     }
 }
-.nav-btn  { 
+.nav-btn, 
+a.nav-btn  { 
     width: @button-height;
     height: @button-height;
     line-height: @button-height;
@@ -149,6 +150,7 @@ a:hover, a:active { color: #36c; }
     &:hover {
         background-color: @nav-button-hover;
         color: @nav-text-hover;
+        text-decoration: none;
     
         i { opacity: .8; }
     }
@@ -249,8 +251,35 @@ a:hover, a:active { color: #36c; }
 #streetview-link {
     display: none;
     position: absolute;
-    background-color: blue;
-    border: 1px solid white;
+
+    a {
+        width: auto;
+        display: inline-block;
+        background: @nav-button-color;
+        background-image: url('@{img-root}/streetview-church-44.jpg');
+        background-repeat: no-repeat;
+        border: 1px solid rgba(255,255,255,.1);
+        padding: 0 11px 0 55px;
+        color: @nav-text-color;
+        font-size: 16px;
+        line-height: @button-height;
+
+        &:hover {
+            background-color: @nav-button-hover;
+            color: @nav-text-hover;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        span {
+            background: url('@{img-root}/btn-vignette-mask.png') no-repeat;
+            display: block;
+            width: @button-height;
+            height: @button-height;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
 }
 
 #streetview {
