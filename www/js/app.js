@@ -282,6 +282,8 @@ function goto_next_cue() {
      * Jump to the next cue.
      */
     if (active_cue < (num_cues - 1)) {
+        $modal_intro.modal('hide');
+
         var id = active_cue + 1;
         $player.jPlayer('play', cue_data[id]['cue']);
     }
@@ -294,6 +296,8 @@ function goto_previous_cue() {
      * Jump to the previous cue.
      */
     if (active_cue > 0) {
+        $modal_end.modal('hide');
+
         var id = active_cue - 1;
         $player.jPlayer('play', cue_data[id]['cue']);
     }
