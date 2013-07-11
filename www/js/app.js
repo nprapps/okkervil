@@ -17,6 +17,8 @@ var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
 var MARGIN = 100;
 var MAX_BOUNDS = new L.LatLngBounds(xy(0, 0), xy(WIDTH, HEIGHT));
+var VIGNETTE_WIDTH = 10000;
+var VIGNETTE_HEIGHT = 5000;
 
 var AUDIO_LENGTH = 950;
 var PAN_DURATION = 2.0;
@@ -38,6 +40,7 @@ var $modal_intro;
 var $start_btn;
 var $modal_end;
 var $end_btn;
+var $vignette;
 
 // State
 var superzoom = null;
@@ -48,7 +51,6 @@ var cue_data = [];
 var pop = null;
 var browse_list_open = false;
 var icon = null;
-var marker = null;
 
 function setup_superzoom() {
     /*
@@ -74,18 +76,6 @@ function setup_superzoom() {
         continuousWorld: true,
         noWrap: true
     }).addTo(superzoom);
-
-    icon = new L.Icon({
-        iconUrl: 'img/marker-icon.png',
-        iconRetinaUrl: 'img/marker-icon-2x.png',
-        //iconSize: [38, 95],
-        //iconAnchor: [22, 94],
-        //popupAnchor: [-3, -76],
-        shadowUrl: 'img/marker-shadow.png',
-        shadowRetinaUrl: 'img/marker-shadow.png',
-        //shadowSize: [68, 95],
-        //shadowAnchor: [22, 94]
-    });
 }
 
 function superzoom_to(x, y, zoom) {
@@ -177,11 +167,8 @@ function unfreeze_superzoom() {
     
     superzoom.setMaxBounds(null);
 
-    // Clear any visible markers so they don't ugly things up
-    if (marker) {
-        superzoom.removeLayer(marker);
-        marker = null;
-    }
+    // Clear vignette
+    $vignette.hide();
 }
 
 function setup_jplayer() {
@@ -277,10 +264,7 @@ function goto_cue(id) {
     var x = parseInt(cue['x']);
     var y = parseInt(cue['y']);
 
-    if (marker) {
-        superzoom.removeLayer(marker);
-        marker = null;
-    }
+    $vignette.hide();
 
     if (id == 0) {
         $player.jPlayer('pause', cue['cue']);
@@ -289,12 +273,27 @@ function goto_cue(id) {
         $player.jPlayer('pause', cue['cue']);
         open_end_modal();
     } else {
-        marker = new L.Marker(xy(x, y), {
-            icon: icon 
-        });
-        marker.addTo(superzoom);
+        var handler = function() {
+            var pos = xy(x, y);
+            var pt = superzoom.project(pos, cue['zoom']);
+
+            var bounds = superzoom.getBounds();
+            var nw = bounds.getNorthWest();
+            var nw_pt = superzoom.project(nw, cue['zoom']);
+
+            var left = (pt.x - VIGNETTE_WIDTH / 2) - nw_pt.x;
+            var top = (pt.y - VIGNETTE_HEIGHT / 2) - nw_pt.y;
+
+            $vignette.css({
+                'background-position': left + 'px ' + top + 'px'
+            }).show();
+
+            superzoom.off('moveend', handler);
+        }
+
+        superzoom.on('moveend', handler);
     }
-        
+
     superzoom_to(x, y, cue['zoom']);
 
     update_current_cue(id);
@@ -390,6 +389,7 @@ $(function() {
     $start_btn = $modal_intro.find('.play-btn');
     $modal_end = $('#modal-end');
     $end_btn = $modal_end.find('.play-btn');
+    $vignette = $('#vignette');
 
     // Setup the zoomer
     setup_superzoom()
