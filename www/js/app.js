@@ -439,8 +439,12 @@ $(function() {
         var cue = cue_data[active_cue];
 
         $streetview.find('iframe').attr('src', cue['streetview_iframe']);
-        $streetview.find('a').attr('href', cue['streetview_href']);
+        $streetview.find('a.view-larger').attr('href', cue['streetview_href']);
         $streetview.show();
+    });
+
+    $streetview.on('click', 'a.close', function() {
+        $streetview.hide();
     });
 
     // Keyboard controls 
