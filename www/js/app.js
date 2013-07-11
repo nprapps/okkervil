@@ -192,7 +192,7 @@ function load_cue_data() {
             cue['show_number'] = (id != 0 && id != num_cues - 1);
 
             var bits = cue['cue'].split(':');
-            cue['cue'] = (parseInt(bits[0]) * 60) + parseInt(bits[1]) + (parseInt(bits[2]) / 60)
+            cue['cue'] = (parseInt(bits[0]) * 60) + parseInt(bits[1]) + (parseInt(bits[2]) / 60);
 
             cue_data.push(cue);
             
@@ -205,7 +205,7 @@ function load_cue_data() {
             // Popcorn cuepoint for this cue
             pop.code({
                 start: cue_time,
-                end: cue_time + .1,
+                end: cue_time + 1,
                 onStart: function(options) {         
                     goto_cue(id);
 
