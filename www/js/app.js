@@ -92,7 +92,40 @@ function superzoom_to(x, y, zoom) {
     /*
      * Zoom to a given x, y point (in pixel space).
      */
-    superzoom.setView(xy(x, y), zoom, {
+    var latlng = xy(x, y);
+
+    // Compute sizes at target zoom level
+    var zoomed = superzoom.project(latlng, zoom);
+    var image_size = superzoom.project(MAX_COORDS, zoom);
+    
+    // Constrain x
+    var width = $superzoom.width();
+    var half_width = width / 2;
+
+    if (zoomed.x < half_width) {
+        zoomed.x = half_width;
+    }
+
+    if (zoomed.x > image_size.x - half_width) {
+        zoomed.x = image_size.x - half_width;
+    }
+
+    // Constrain y
+    var height = $superzoom.height();
+    var half_height = height / 2;
+
+    if (zoomed.y < half_height) {
+        zoomed.y = half_height;
+    }
+
+    if (zoomed.y > image_size.y - half_height) {
+        zoomed.y = image_size.y - half_height;
+    }
+
+    // Reproject back to latlng since that's what leaflet expects
+    latlng = superzoom.unproject(zoomed, zoom); 
+
+    superzoom.setView(latlng, zoom, {
         animate: true,
         pan: { duration: PAN_DURATION } 
     });
