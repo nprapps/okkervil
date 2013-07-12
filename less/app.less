@@ -519,6 +519,15 @@ a.nav-btn  {
 	}
 }
 @media (max-width: 480px) {
+    #nav {
+        -webkit-transition: all 0.5s ease-in;
+        -webkit-transform:  translate(0, 0);
+
+        &.playing {
+            -webkit-transform:  translate(0, -56px);
+        }
+    }
+
     #browse-btn {
         width: @button-height;
         border-right: 1px solid @nav-border-color;
@@ -560,7 +569,7 @@ a.nav-btn  {
         box-sizing: border-box;
         width: 100%;
         height: auto;
-        top: 100px;
+        top: 44px;
         bottom: 0;
         left: 0;
         z-index: 9999;
@@ -597,3 +606,4 @@ a.nav-btn  {
         }
     }
 }
+
