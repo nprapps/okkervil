@@ -204,9 +204,11 @@ function setup_jplayer() {
         },
         play: function() {
             freeze_superzoom();
+            $nav.toggleClass('playing');
         },
         pause: function() {
             unfreeze_superzoom();
+            $nav.toggleClass('playing');
         },
         timeupdate: function(e) {
             var current_time = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
@@ -216,6 +218,7 @@ function setup_jplayer() {
         },
         ended: function () {
             $(this).jPlayer("pause", AUDIO_LENGTH - 1);
+            $nav.toggleClass('playing');
         },
         swfPath: "js",
         supplied: "oga, mp3"
@@ -444,6 +447,11 @@ $(function() {
 
     // Setup the audio
     setup_jplayer();
+
+    // Get rid of phone browser chrome
+    if (Modernizr.mq('(max-width: 480px)')){
+        $(window).scrollTop(1);
+    }
 
     // Event handlers
 	$browse_btn.click(browse_list_toggle);

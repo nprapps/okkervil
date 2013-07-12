@@ -519,6 +519,10 @@ a.nav-btn  {
 	}
 }
 @media (max-width: 480px) {
+    #superzoom {
+        padding-bottom: 60px;
+    }
+
     #nav {
         -webkit-transition: all 0.5s ease-in;
         -webkit-transform:  translate(0, 0);
@@ -575,6 +579,7 @@ a.nav-btn  {
         z-index: 9999;
         border: none;
         background: #333;
+        margin-bottom: -60px;
         //overflow: hidden;
 
         iframe {
@@ -593,7 +598,7 @@ a.nav-btn  {
         .close {
             position: absolute;
             right: 0;
-            bottom: 0;
+            top: 0;
             z-index: 1000;
             padding: 0 16px;
             background: #333;
