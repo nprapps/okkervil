@@ -159,7 +159,7 @@ function freeze_superzoom() {
     superzoom.setMaxBounds(MAX_BOUNDS);
 
     // Restore cue position if we've been exploring mid-way through
-    if (active_cue > 0 && active_cue < num_cues - 1) {
+    if (active_cue > 0) {
         goto_cue(active_cue);
     }
 }
@@ -327,7 +327,6 @@ function goto_cue(id) {
         $player.jPlayer('pause', cue['cue']);
         open_intro_modal();
     } else if (id == num_cues - 1) {
-        $player.jPlayer('pause', cue['cue']);
         superzoom.setMaxBounds(null);
         open_end_modal();
     } else {
@@ -477,11 +476,12 @@ $(function() {
 	$back.click(goto_previous_cue);
 
     $start_btn.click(function() {
-        $modal_intro.modal('hide');
         $player.jPlayer('play');
+        $modal_intro.modal('hide');
     });
     
     $end_btn.click(function() {
+        $player.jPlayer('pause');
         $modal_end.modal('hide');
     });
 
