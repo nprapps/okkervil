@@ -271,8 +271,7 @@ function load_cue_data() {
         $browse_list.find('.browse-0').click(open_intro_modal);
         $browse_list.find('.browse-cue:last').click(open_end_modal);
 
-        // Now we can fire the first event
-        pop.enable('code');
+        update_current_cue(0);
     });
 }
 
@@ -291,7 +290,7 @@ function on_moveend() {
     var left = (pt.x - VIGNETTE_WIDTH / 2) - nw_pt.x;
     var top = (pt.y - VIGNETTE_HEIGHT / 2) - nw_pt.y;
 
-    if (active_cue > 0 && active_cue < num_cues - 1) {
+    if (active_cue > 1 && active_cue < num_cues - 1) {
         $vignette.css({
             'background-position': left + 'px ' + top + 'px',
             'opacity': 1
