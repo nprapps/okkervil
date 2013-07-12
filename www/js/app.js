@@ -79,6 +79,15 @@ function setup_superzoom() {
     }).addTo(superzoom);
 }
 
+function approx_equal_coord(ll1, ll2) {
+    /*
+     * Check if coordinates are the same within a tenth of a degree
+     * in both dimensions.
+     */
+    return (Math.round(ll1.lat * 10) / 10 == Math.round(ll2.lat * 10) / 10 &&
+        Math.round(ll1.lng * 10) / 10 == Math.round(ll2.lng * 10) / 10);
+}
+
 function superzoom_to(x, y, zoom) {
     /*
      * Zoom to a given x, y point (in pixel space).
@@ -116,10 +125,16 @@ function superzoom_to(x, y, zoom) {
     // Reproject back to latlng since that's what leaflet expects
     latlng = superzoom.unproject(zoomed, zoom); 
 
-    superzoom.setView(latlng, zoom, {
-        animate: true,
-        pan: { duration: PAN_DURATION } 
-    });
+    // If the map doesn't have to move then just fire the moveend event
+    // (to bring back the vignette if needed)
+    if (approx_equal_coord(superzoom.getCenter(), latlng)) {
+        superzoom.fire('moveend');
+    } else {
+        superzoom.setView(latlng, zoom, {
+            animate: true,
+            pan: { duration: PAN_DURATION } 
+        });
+    }
 }
 
 function freeze_superzoom() {
@@ -217,6 +232,9 @@ function load_cue_data() {
     
     $.getJSON('cues.json', function(data) {
         num_cues += data.length;
+
+        // Don't fire initial popcorn event until we've loaded everything and centered map
+        pop.disable('code');
         
         $.each(data, function(id, cue) {
             cue['id'] = id;
@@ -254,6 +272,9 @@ function load_cue_data() {
 
         // Set initial map position
         superzoom.setView(xy(cue_data[0]['x'], cue_data[0]['y']), cue_data[0]['zoom']);
+
+        // Now we can fire the first event
+        pop.enable('code');
     });
 }
 
