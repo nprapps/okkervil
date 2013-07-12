@@ -53,6 +53,7 @@ var cue_data = [];
 var pop = null;
 var browse_list_open = false;
 var icon = null;
+var moving = false;
 
 function setup_superzoom() {
     /*
@@ -323,11 +324,13 @@ function goto_cue(id) {
             }
 
             superzoom.off('moveend', handler);
+            moving = false
         }
 
         superzoom.on('moveend', handler);
     }
 
+    moving = true;
     superzoom_to(x, y, cue['zoom']);
 
     update_current_cue(id);
@@ -369,6 +372,10 @@ function goto_next_cue() {
     /*
      * Jump to the next cue.
      */
+    if (moving) {
+        return false;
+    }
+
     if (active_cue < (num_cues - 1)) {
         $modal_intro.modal('hide');
 
@@ -383,6 +390,10 @@ function goto_previous_cue() {
     /*
      * Jump to the previous cue.
      */
+    if (moving) {
+        return false;
+    }
+
     if (active_cue > 0) {
         $modal_end.modal('hide');
 
@@ -451,9 +462,15 @@ $(function() {
     });
 
     $browse_list.on('click', 'a', function() {
+        if (moving) {
+            return false;
+        }
+
         var id = parseInt($(this).attr('data-id'));
         $player.jPlayer('play', cue_data[id]['cue']);
         browse_list_toggle('close');
+
+        return false;
     });
 
     $streetview_link.on('click', 'a', function() {
@@ -471,22 +488,23 @@ $(function() {
     // Keyboard controls 
     $(document).keydown(function(ev) {
         if (ev.which == 37) {
-            goto_previous_cue();
-            return false;
+            return goto_previous_cue();
         } else if (ev.which == 39) {
-            goto_next_cue();
-            return false;
+            return goto_next_cue();
         } else if (ev.which == 32) {
             if ($player.data().jPlayer.status.paused) {
                 $player.jPlayer('play');
             } else {
                 $player.jPlayer('pause');
             }
+
             return false;
         } else if (ev.which == 27) {
             if ($streetview.is(':visible')) {
                 $streetview.hide();
             }
+            
+            return false;
         }
 
         return true;
