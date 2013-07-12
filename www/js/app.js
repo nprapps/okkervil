@@ -129,9 +129,11 @@ function superzoom_to(x, y, zoom) {
     if (approx_equal_coord(superzoom.getCenter(), latlng)) {
         superzoom.fire('moveend');
     } else {
-        superzoom.setView(latlng, zoom, {
-            animate: true,
-            pan: { duration: PAN_DURATION } 
+        superzoom.whenReady(function() {
+            superzoom.setView(latlng, zoom, {
+                animate: true,
+                pan: { duration: PAN_DURATION } 
+            });
         });
     }
 }
@@ -198,7 +200,7 @@ function setup_jplayer() {
                 oga: "http://apps.npr.org/okkervil/audio/narration.ogg"
             }).jPlayer("pause");
 
-            load_cue_data();
+            superzoom.whenReady(load_cue_data);
         },
         play: function() {
             freeze_superzoom();
@@ -235,9 +237,6 @@ function load_cue_data() {
     $.getJSON('cues.json', function(data) {
         num_cues += data.length;
 
-        // Don't fire initial popcorn event until we've loaded everything and centered map
-        pop.disable('code');
-        
         $.each(data, function(id, cue) {
             cue['id'] = id;
             cue['show_number'] = (id != 0 && id != num_cues - 1);
@@ -271,8 +270,6 @@ function load_cue_data() {
 
         $browse_list.find('.browse-0').click(open_intro_modal);
         $browse_list.find('.browse-cue:last').click(open_end_modal);
-
-        update_current_cue(0);
 
         // Now we can fire the first event
         pop.enable('code');
@@ -461,11 +458,11 @@ $(function() {
     $streetview_link = $('#streetview-link');
     $streetview = $('#streetview');
 
-    // Setup the zoomer
-    setup_superzoom()
-
     // Setup the audio
     setup_jplayer();
+
+    // Setup the zoomer
+    setup_superzoom();
 
     // Get rid of phone browser chrome
     if (Modernizr.mq('(max-width: 480px)')){
