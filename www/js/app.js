@@ -316,7 +316,7 @@ function goto_cue(id) {
 
             if (cue_data[id]['streetview_iframe']) {
                 var streetview_left = (pt.x - 50) - nw_pt.x;
-                var streetview_top = (pt.y - 25) - nw_pt.y + 50;
+                var streetview_top = (pt.y - 25) - nw_pt.y + 100;
 
                 $streetview_link.css({
                     'left': streetview_left,
