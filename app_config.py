@@ -15,7 +15,7 @@ NAMES
 """
 # Project name used for display
 PROJECT_NAME = 'Growing up in Meriden'
-PROJECT_SHORT_NAME = 'The Silver Gymnasium'
+PROJECT_SHORT_NAME = PROJECT_NAME
 
 # Project name used for paths on the filesystem and in urls
 # Use dashes, not underscores
