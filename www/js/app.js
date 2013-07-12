@@ -60,9 +60,11 @@ function setup_superzoom() {
      * Setup the "map".
      */
     superzoom = L.map('superzoom', {
+        center: CENTER_COORDS,
+        zoom: 1,
         minZoom: MIN_ZOOM,
         maxZoom: MAX_ZOOM,
-        maxBounds: MAX_BOUNDS,
+        maxBounds: null,
         crs: L.CRS.Simple,
         zoomControl: false,
         attributionControl: false
@@ -105,9 +107,7 @@ function superzoom_to(x, y, zoom) {
 
     if (zoomed.x < half_width) {
         zoomed.x = half_width;
-    }
-
-    if (zoomed.x > image_size.x - half_width) {
+    } else if (zoomed.x > image_size.x - half_width) {
         zoomed.x = image_size.x - half_width;
     }
 
@@ -117,9 +117,7 @@ function superzoom_to(x, y, zoom) {
 
     if (zoomed.y < half_height) {
         zoomed.y = half_height;
-    }
-
-    if (zoomed.y > image_size.y - half_height) {
+    } else if (zoomed.y > image_size.y - half_height) {
         zoomed.y = image_size.y - half_height;
     }
 
@@ -250,7 +248,9 @@ function load_cue_data() {
         
             // Markup for this cue and its entry in the cue nav
             // via Underscore template / JST
-            browse_output += JST.browse(cue);
+            if (id != 1) {
+                browse_output += JST.browse(cue);
+            }
 
             // Popcorn cuepoint for this cue
             pop.code({
@@ -271,14 +271,47 @@ function load_cue_data() {
 
         update_current_cue(0);
 
-        // Set initial map position
-        superzoom.setView(xy(cue_data[0]['x'], cue_data[0]['y']), cue_data[0]['zoom']);
-
         // Now we can fire the first event
         pop.enable('code');
     });
 }
 
+function on_moveend() {
+    var cue = cue_data[active_cue];
+    var x = parseInt(cue['x']);
+    var y = parseInt(cue['y']);
+
+    var pos = xy(x, y);
+    var pt = superzoom.project(pos, cue['zoom']);
+
+    var bounds = superzoom.getBounds();
+    var nw = bounds.getNorthWest();
+    var nw_pt = superzoom.project(nw, cue['zoom']);
+
+    var left = (pt.x - VIGNETTE_WIDTH / 2) - nw_pt.x;
+    var top = (pt.y - VIGNETTE_HEIGHT / 2) - nw_pt.y;
+
+    if (active_cue > 0 && active_cue < num_cues - 1) {
+        $vignette.css({
+            'background-position': left + 'px ' + top + 'px',
+            'opacity': 1
+        });
+    }
+
+    if (cue['streetview_iframe']) {
+        var streetview_left = (pt.x - 50) - nw_pt.x;
+        var streetview_top = (pt.y - 25) - nw_pt.y + 100;
+
+        $streetview_link.css({
+            'left': streetview_left,
+            'top': streetview_top 
+        }).show();
+    }
+
+    superzoom.off('moveend', on_moveend);
+    moving = false
+}
+        
 function goto_cue(id) {
     /*
      * Jump to a cue and update all display info, including superzoom.
@@ -296,53 +329,29 @@ function goto_cue(id) {
         open_intro_modal();
     } else if (id == num_cues - 1) {
         $player.jPlayer('pause', cue['cue']);
+        superzoom.setMaxBounds(null);
         open_end_modal();
     } else {
-        var handler = function() {
-            var pos = xy(x, y);
-            var pt = superzoom.project(pos, cue['zoom']);
-
-            var bounds = superzoom.getBounds();
-            var nw = bounds.getNorthWest();
-            var nw_pt = superzoom.project(nw, cue['zoom']);
-
-            var left = (pt.x - VIGNETTE_WIDTH / 2) - nw_pt.x;
-            var top = (pt.y - VIGNETTE_HEIGHT / 2) - nw_pt.y;
-
-            $vignette.css({
-                'background-position': left + 'px ' + top + 'px',
-                'opacity': 1
-            }).show();
-
-            if (cue_data[id]['streetview_iframe']) {
-                var streetview_left = (pt.x - 50) - nw_pt.x;
-                var streetview_top = (pt.y - 25) - nw_pt.y + 100;
-
-                $streetview_link.css({
-                    'left': streetview_left,
-                    'top': streetview_top 
-                }).show();
-            }
-
-            superzoom.off('moveend', handler);
-            moving = false
-        }
-
-        superzoom.on('moveend', handler);
+        superzoom.setMaxBounds(MAX_BOUNDS);
     }
 
     moving = true;
+    superzoom.on('moveend', on_moveend);
+
+    active_cue = id;
     superzoom_to(x, y, cue['zoom']);
 
     update_current_cue(id);
-
-    active_cue = id;
 }
 
 function update_current_cue(id) {
     /*
      * Update the display of the current cue name.
      */
+    if (id == 1) {
+        id = 0;
+    }
+
     $('.browse-cue a').removeClass('active');
     $('.browse-' + id + ' a').addClass('active');
 
@@ -381,6 +390,11 @@ function goto_next_cue() {
         $modal_intro.modal('hide');
 
         var id = active_cue + 1;
+
+        if (id == 1) {
+            id = 2;
+        }
+
         $player.jPlayer('play', cue_data[id]['cue']);
     }
 
@@ -399,6 +413,11 @@ function goto_previous_cue() {
         $modal_end.modal('hide');
 
         var id = active_cue - 1;
+
+        if (id == 1) {
+            id = 0;
+        }
+
         $player.jPlayer('play', cue_data[id]['cue']);
     }
 
