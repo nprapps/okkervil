@@ -186,7 +186,7 @@ function unfreeze_superzoom() {
 
     $streetview_link.hide();
     $streetview.hide();
-    $vignette.hide();
+    $vignette.css({ 'opacity': 0 });
 }
 
 function setup_jplayer() {
@@ -289,7 +289,7 @@ function goto_cue(id) {
 
     $streetview_link.hide();
     $streetview.hide();
-    $vignette.hide();
+    $vignette.css({ 'opacity': 0 });
 
     if (id == 0) {
         $player.jPlayer('pause', cue['cue']);
@@ -310,7 +310,8 @@ function goto_cue(id) {
             var top = (pt.y - VIGNETTE_HEIGHT / 2) - nw_pt.y;
 
             $vignette.css({
-                'background-position': left + 'px ' + top + 'px'
+                'background-position': left + 'px ' + top + 'px',
+                'opacity': 1
             }).show();
 
             if (cue_data[id]['streetview_iframe']) {
