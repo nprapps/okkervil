@@ -20,7 +20,7 @@ var MAX_BOUNDS = new L.LatLngBounds(xy(0, 0), xy(WIDTH, HEIGHT));
 var VIGNETTE_WIDTH = 10000;
 var VIGNETTE_HEIGHT = 5000;
 
-var AUDIO_LENGTH = 950;
+var AUDIO_LENGTH = (11 * 60) + 12;
 var PAN_DURATION = 2.0;
 
 // Elements
@@ -196,8 +196,8 @@ function setup_jplayer() {
     $player.jPlayer({
         ready: function () {
             $(this).jPlayer('setMedia', {
-                mp3: "http://apps.npr.org/okkervil/audio/mega.mp3",
-                //oga: "http://apps.npr.org/okkervil/audio/mega.ogg"
+                mp3: "http://apps.npr.org/okkervil/audio/narration.mp3",
+                oga: "http://apps.npr.org/okkervil/audio/narration.ogg"
             }).jPlayer("pause");
 
             load_cue_data();
@@ -319,7 +319,7 @@ function goto_cue(id) {
 
             if (cue_data[id]['streetview_iframe']) {
                 var streetview_left = (pt.x - 50) - nw_pt.x;
-                var streetview_top = (pt.y - 25) - nw_pt.y + 50;
+                var streetview_top = (pt.y - 25) - nw_pt.y + 100;
 
                 $streetview_link.css({
                     'left': streetview_left,
