@@ -43,6 +43,7 @@ var $end_btn;
 var $vignette;
 var $streetview_link;
 var $streetview;
+var $photo;
 
 // State
 var superzoom = null;
@@ -186,6 +187,7 @@ function unfreeze_superzoom() {
 
     $streetview_link.hide();
     $streetview.hide();
+    $photo.hide();
     $vignette.css({ 'opacity': 0 });
 }
 
@@ -297,7 +299,7 @@ function on_moveend() {
         });
     }
 
-    if (cue['streetview_iframe']) {
+    if (cue['streetview_iframe'] || cue['photo_filename']) {
         var streetview_left = (pt.x - 50) - nw_pt.x;
         var streetview_top = (pt.y - 25) - nw_pt.y + 100;
 
@@ -321,6 +323,7 @@ function goto_cue(id) {
 
     $streetview_link.hide();
     $streetview.hide();
+    $photo.hide();
     $vignette.css({ 'opacity': 0 });
 
     if (id == 0) {
@@ -455,6 +458,7 @@ $(function() {
     $vignette = $('#vignette');
     $streetview_link = $('#streetview-link');
     $streetview = $('#streetview');
+    $photo = $('#photo');
 
     // Setup the audio
     setup_jplayer();
@@ -500,12 +504,23 @@ $(function() {
     $streetview_link.on('click', 'a', function() {
         var cue = cue_data[active_cue];
 
-        $streetview.find('iframe').attr('src', cue['streetview_iframe']);
-        $streetview.show();
+        if (cue['streetview_iframe']) {
+            $streetview.find('iframe').attr('src', cue['streetview_iframe']);
+            $streetview.show();
+        } else {
+            var $img = $photo.find('img');
+
+            $img.attr('src', 'img/' + cue['photo_filename']);
+            $photo.show();
+        }
     });
 
     $streetview.on('click', 'a.close', function() {
         $streetview.hide();
+    });
+
+    $photo.on('click', 'a.close', function() {
+        $photo.hide();
     });
 
     // Keyboard controls 
@@ -523,9 +538,8 @@ $(function() {
 
             return false;
         } else if (ev.which == 27) {
-            if ($streetview.is(':visible')) {
-                $streetview.hide();
-            }
+            $streetview.hide();
+            $photo.hide();
             
             return false;
         }
