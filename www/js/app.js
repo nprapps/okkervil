@@ -277,6 +277,17 @@ function load_cue_data() {
     });
 }
 
+function show_slide(slide) {
+    if (slide['streetview']) {
+        $streetview.find('iframe').attr('src', slide['streetview']);
+        $streetview.show();
+    } else {
+        var $img = $photo.find('img');
+        $img.attr('src', 'img/photos/' + slide['photo']);
+        $photo.show();
+    }
+}
+
 function on_moveend() {
     var link_css;
     var cue = cue_data[active_cue];
@@ -317,8 +328,35 @@ function on_moveend() {
                 'top': streetview_top
             }
         }
+        
+        var slides = {};
+        slides['slides'] = [];
+        var thumbnails = cue['thumbnails'].split(',');
+        var photo_filenames = cue['photo_filename'].split(',');
+        _.each(thumbnails, function(thumbnail, i){
+            var slide = {};
+            slide['thumbnail'] = thumbnail;
+            if (i == thumbnails.length - 1) {
+                //last one, do the streetview
+                slide['streetview'] = cue['streetview_iframe'];
+            } else {
+                slide['photo'] = photo_filenames[i];
+            }
+            slides['slides'].push(slide);
+        });
+        var thumbnails_output = JST.thumbnails(slides);
+
+        $streetview_link.append(thumbnails_output);
 
         $streetview_link.css(link_css).show();
+        
+        $('.thumbnails img').click(function(){
+            var image = $(this);
+            var slide = {};
+            slide['streetview'] = image.attr('data-streetview');
+            slide['photo'] = image.attr('data-photo');
+            show_slide(slide)
+        })
     }
 
     superzoom.off('moveend', on_moveend);
@@ -511,20 +549,6 @@ $(function() {
         browse_list_toggle('close');
 
         return false;
-    });
-
-    $streetview_link.on('click', 'a', function() {
-        var cue = cue_data[active_cue];
-
-        if (cue['streetview_iframe']) {
-            $streetview.find('iframe').attr('src', cue['streetview_iframe']);
-            $streetview.show();
-        } else {
-            var $img = $photo.find('img');
-
-            $img.attr('src', 'img/photos/' + cue['photo_filename']);
-            $photo.show();
-        }
     });
 
     $streetview.on('click', 'a.close', function() {
