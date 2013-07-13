@@ -185,9 +185,6 @@ function unfreeze_superzoom() {
     
     superzoom.setMaxBounds(null);
 
-    $streetview_link.hide();
-    $streetview.hide();
-    $photo.hide();
     $vignette.css({ 'opacity': 0 });
 }
 
