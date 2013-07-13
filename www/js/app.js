@@ -278,6 +278,7 @@ function load_cue_data() {
 }
 
 function on_moveend() {
+    var link_css;
     var cue = cue_data[active_cue];
     var x = parseInt(cue['x']);
     var y = parseInt(cue['y']);
@@ -303,10 +304,21 @@ function on_moveend() {
         var streetview_left = (pt.x - 50) - nw_pt.x;
         var streetview_top = (pt.y - 25) - nw_pt.y + 100;
 
-        $streetview_link.css({
-            'left': streetview_left,
-            'top': streetview_top 
-        }).show();
+        if (Modernizr.mq('(max-width: 480px)')){
+            link_css = {
+                'top': 'auto',
+                'left': '0',
+                'bottom': '0',
+                'margin-bottom': '-20px'
+            }
+        } else {
+            link_css = {
+                'left': streetview_left,
+                'top': streetview_top
+            }
+        }
+
+        $streetview_link.css(link_css).show();
     }
 
     superzoom.off('moveend', on_moveend);
