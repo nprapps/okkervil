@@ -1,0 +1,13 @@
+<div class="thumbnails">
+    <% _.each(slides, function(slide, i){ %>
+        <img
+            <% if(slide.streetview){ %>
+                data-streetview="<%= slide.streetview %>"
+            <% } %>
+            <% if(slide.photo){ %>
+                data-photo="<%= slide.photo %>"
+            <% } %>
+            src="img/photos/thumbs/<%= slide.thumbnail %>"
+        />
+    <% }) %>
+</div>
