@@ -345,7 +345,8 @@ function on_moveend() {
 
         $streetview_link.empty().append(thumbnails_output);
 
-        $streetview_link.css(link_css).show();
+        //$streetview_link.css(link_css).show();
+        $streetview_link.show();
         
         $('.thumbnails img').click(function(){
             var image = $(this);

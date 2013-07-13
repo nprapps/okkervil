@@ -256,22 +256,22 @@ a.nav-btn  {
 #streetview-link {
     display: none;
     position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
     
     .thumbnails {
-        
         width: auto;
         display: inline-block;
-        background: rgba(52, 52, 52, 0.8);
-        border: none;
-        padding: 0 11px;
+        padding: 11px;
         color: #fff;
-        -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.7);
-           -moz-box-shadow: 0 2px 10px rgba(0,0,0,.7);
-                box-shadow: 0 2px 10px rgba(0,0,0,.7);
-        
+
         img {
             height:50px;
             width:50px;
+            border: 1px solid rgba(255,255,255, 0.2);
         }
     }
 
@@ -622,6 +622,8 @@ a.nav-btn  {
         }
 	    &#modal-intro {
 	        min-height: auto;
+            max-height: 100%;
+            overflow: scroll;
 	        h1 { font-size: 30px; margin-bottom: 8px;}
 	        p { font-size: 16px; margin-bottom: 5px; }
 	        
@@ -664,9 +666,15 @@ a.nav-btn  {
     }
     #streetview-link {
         width: 100%;
+        margin-bottom: -60px;
         text-align: center;
+        overflow-x: scroll;
         a {
             float: none;
+        }
+        .thumbnails {
+            width: auto;
+            white-space: nowrap;
         }
     }
 }
