@@ -333,7 +333,7 @@ function on_moveend() {
         _.each(thumbnails, function(thumbnail, i){
             var slide = {};
             slide['thumbnail'] = thumbnail;
-            if (i == thumbnails.length - 1) {
+            if (cue['streetview_iframe'] && i == thumbnails.length - 1) {
                 //last one, do the streetview
                 slide['streetview'] = cue['streetview_iframe'];
             } else {
@@ -343,7 +343,7 @@ function on_moveend() {
         });
         var thumbnails_output = JST.thumbnails(slides);
 
-        $streetview_link.append(thumbnails_output);
+        $streetview_link.empty().append(thumbnails_output);
 
         $streetview_link.css(link_css).show();
         
