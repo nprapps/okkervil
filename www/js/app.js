@@ -522,7 +522,7 @@ $(function() {
         } else {
             var $img = $photo.find('img');
 
-            $img.attr('src', 'img/' + cue['photo_filename']);
+            $img.attr('src', 'img/photos/' + cue['photo_filename']);
             $photo.show();
         }
     });
