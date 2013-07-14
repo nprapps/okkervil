@@ -161,6 +161,7 @@ function freeze_superzoom() {
 
     // Restore cue position if we've been exploring mid-way through
     if (active_cue > 0) {
+        $vignette.css({ 'opacity': 1 });
         goto_cue(active_cue);
     }
 }
@@ -186,6 +187,7 @@ function unfreeze_superzoom() {
     superzoom.setMaxBounds(null);
 
     $vignette.css({ 'opacity': 0 });
+    $streetview_link.hide();
 }
 
 function setup_jplayer() {
