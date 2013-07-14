@@ -48,6 +48,7 @@ a:hover, a:active { color: #36c; }
         li.project-name {
             line-height: @nav-height;
             font-size: 18px;
+            font-family: Georgia, serif;
             font-weight: normal;
             color: @nav-text-color;
         }
@@ -520,24 +521,14 @@ a.nav-btn  {
     -ms-transition: opacity .2s linear, none;
     -o-transition: opacity .2s linear, none;
     transition: opacity .2s linear, none;
-/* top: 50%;*/
-/*    top:0;*/
 }
+
 .modal.fade.in {
-/*    top: 0;*/
     opacity: .8;
 }
 
-/*.modal-backdrop {
-    background-color: #111;
-    opacity: 0;
-    filter: alpha(opacity=95);
-}
-*/
-
 .modal-backdrop, .modal-backdrop.fade.in {
-opacity: .5;
-/*filter: alpha(opacity=80);*/
+    opacity: .5;
 }
 
 
@@ -609,8 +600,14 @@ opacity: .5;
         -webkit-overflow-scrolling: touch;
     }
 
+	.modal.fade.in {
+        top: 0;
+    }
+
 	.modal {
-	    top: 11px;
+
+        right: 0;
+        left: 0;
 	    
 	    h3 {
 	        font-size: 32px;
@@ -673,12 +670,26 @@ opacity: .5;
         margin-bottom: -60px;
         text-align: center;
         overflow-x: scroll;
+        background-color: rgba(17, 17, 17, 0.8);
         a {
             float: none;
         }
         .thumbnails {
             width: auto;
             white-space: nowrap;
+            img {
+                height:44px; width:44px;
+            }
+        }
+    }
+    
+    #photo {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        .photo-wrapper {
+            border: none;
         }
     }
 }
