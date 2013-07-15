@@ -57,17 +57,17 @@ COPY_GOOGLE_DOC_KEY = '0AlXMOHKxzQVRdGlzMUUtVXZCN3ZrMHVrX1AzRzA5TGc'
 """
 SHARING
 """
-PROJECT_DESCRIPTION = 'An opinionated project template for (mostly) server-less apps.'
+PROJECT_DESCRIPTION = "Time travel to 1986 and tour Meriden, N.H., hometown of Okkervil River's Will Sheff. And hear the band's new single!"
 SHARE_URL = 'http://%s/%s/' % (PRODUCTION_S3_BUCKETS[0], PROJECT_SLUG)
 
 
 TWITTER = {
-    'TEXT': PROJECT_NAME,
+    'TEXT': PROJECT_DESCRIPTION,
     'URL': SHARE_URL
 }
 
 FACEBOOK = {
-    'TITLE': PROJECT_NAME,
+    'TITLE': "Meriden: 1986, behind Okkervil River's new album",
     'URL': SHARE_URL,
     'DESCRIPTION': PROJECT_DESCRIPTION,
     'IMAGE_URL': '',
