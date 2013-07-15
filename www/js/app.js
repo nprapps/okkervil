@@ -17,8 +17,8 @@ var CENTER_COORDS = xy(WIDTH / 2, HEIGHT / 2);
 var MAX_COORDS = xy(WIDTH, HEIGHT); 
 var MARGIN = 100;
 var MAX_BOUNDS = new L.LatLngBounds(xy(0, 0), xy(WIDTH, HEIGHT));
-var VIGNETTE_WIDTH = 10000;
-var VIGNETTE_HEIGHT = 5000;
+var VIGNETTE_WIDTH = 550;
+var VIGNETTE_HEIGHT = 550;
 
 var AUDIO_LENGTH = (11 * 60) + 12;
 var PAN_DURATION = 2.0;
@@ -304,7 +304,8 @@ function on_moveend() {
 
     if (active_cue > 1 && active_cue < num_cues - 1) {
         $vignette.css({
-            'background-position': left + 'px ' + top + 'px',
+            'left': left + 'px ',
+            'top': top + 'px',
             'opacity': 1
         });
     }

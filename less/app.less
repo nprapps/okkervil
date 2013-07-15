@@ -243,17 +243,18 @@ a.nav-btn  {
 
 #vignette {
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('@{img-root}/vignette.png');
     opacity: 0;
+    width: 550px;
+    height: 550px;
     transition: opacity .5s ease-in-out;
     -moz-transition: opacity .5s ease-in-out;
     -webkit-transition: opacity .5s ease-in-out;
 
     pointer-events: none;
+
+    box-shadow: 0px 0px 0px 2500px rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0px 0px 0px 2500px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 0px 2500px rgba(0, 0, 0, 0.6);
 }
 
 #streetview-link {
