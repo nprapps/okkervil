@@ -67,7 +67,7 @@ TWITTER = {
 }
 
 FACEBOOK = {
-    'TITLE': "Meriden: 1986, behind Okkervil River's new album",
+    'TITLE': "Behind Okkervil River's new album",
     'URL': SHARE_URL,
     'DESCRIPTION': PROJECT_DESCRIPTION,
     'IMAGE_URL': 'http://apps.npr.org/okkervil-river/img/okkervil-river.jpg',
