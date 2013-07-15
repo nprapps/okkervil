@@ -27,8 +27,7 @@ a:hover, a:active { color: #36c; }
     top: 0;
     height: @nav-height;
     width: 100%;
-    background: @audio-background-color;
-    opacity: .8;
+    background: rgba(17, 17, 17, 0.8);
     z-index: 999;
     color: @text-gray;
     font-size: 12px;
@@ -328,8 +327,7 @@ a.nav-btn  {
     }
 
     .photo-wrapper {
-        border: 22px solid rgba(52, 52, 52, 0.8);
-        background: rgba(52, 52, 52, 0.8);
+        //background: rgba(52, 52, 52, 0.8);
         box-sizing: border-box;
         position: relative;
         display: inline-block;
@@ -357,6 +355,10 @@ a.nav-btn  {
     }
 
     img {
+        display: block;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        border: 22px solid rgba(52, 52, 52, 0.8);
         max-width: 100%;
         max-height: 100%;
         width: auto;
@@ -365,8 +367,8 @@ a.nav-btn  {
 
     .close {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 22px;
+        top: 22px;
         z-index: 1000;
         padding: 0 16px;
         background: #555;
@@ -427,7 +429,7 @@ a.nav-btn  {
     border-radius:0;
     box-shadow: none;
     border: none;
-    background-color:#111;
+    background-color:rgba(17, 17, 17, 0.8);
     
     h1, h3, p, ul {
         max-width: 470px;
@@ -473,8 +475,8 @@ a.nav-btn  {
         }
     }
     .modal-body {
-        max-height: none;
-        overflow-y: visible;
+        max-height: 100%;
+        overflow-y: scroll;
         padding: 66px 22px 33px 22px;
         color: #aaa;
         text-align: center;
@@ -516,10 +518,15 @@ a.nav-btn  {
         &:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
     }
     &#modal-intro {
-        min-height: 65%;
+        //min-height: 65%;
 
         h1 {
             font-size: 54px;
+            margin-bottom: 11px;
+        }
+        h2 {
+            font: normal 24px Arial,Helvetica,sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
         p {
             font-size: 18px;
@@ -537,10 +544,6 @@ a.nav-btn  {
     -ms-transition: opacity .2s linear, none;
     -o-transition: opacity .2s linear, none;
     transition: opacity .2s linear, none;
-}
-
-.modal.fade.in {
-    opacity: .8;
 }
 
 .modal-backdrop, .modal-backdrop.fade.in {
@@ -618,6 +621,7 @@ a.nav-btn  {
 
 	.modal.fade.in {
         top: 0;
+        bottom: 0;
     }
 
 	.modal {
@@ -630,7 +634,7 @@ a.nav-btn  {
 	        margin-bottom: 22px;
 	    }
 	    p { font-size: 14px; }
-	    .modal-body { padding-top: 44px; }
+	    .modal-body { padding-top: 44px; box-sizing: border-box; }
 	    .modal-bottom { bottom: -11px; }
         .share-buttons {
             li { width: auto; float: none; }
