@@ -70,7 +70,7 @@ FACEBOOK = {
     'TITLE': "Meriden: 1986, behind Okkervil River's new album",
     'URL': SHARE_URL,
     'DESCRIPTION': PROJECT_DESCRIPTION,
-    'IMAGE_URL': '',
+    'IMAGE_URL': 'http://apps.npr.org/okkervil-river/img/okkervil-river.jpg',
     'APP_ID': '138837436154588'
 }
 
