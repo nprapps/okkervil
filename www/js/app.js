@@ -55,6 +55,7 @@ var pop = null;
 var browse_list_open = false;
 var icon = null;
 var moving = false;
+var playing = false;
 
 function setup_superzoom() {
     /*
@@ -70,6 +71,9 @@ function setup_superzoom() {
         zoomControl: false,
         attributionControl: false
     });
+
+    superzoom.on('zoomstart', hide_overlays);
+    superzoom.on('movestart', hide_overlays);
 
     zoom_control = new L.Control.Zoom({
         position: 'topright'
@@ -161,7 +165,6 @@ function freeze_superzoom() {
 
     // Restore cue position if we've been exploring mid-way through
     if (active_cue > 0) {
-        $vignette.css({ 'opacity': 1 });
         goto_cue(active_cue);
     }
 }
@@ -186,7 +189,7 @@ function unfreeze_superzoom() {
     
     superzoom.setMaxBounds(null);
 
-    $vignette.css({ 'opacity': 0 });
+    //$vignette.css({ 'opacity': 0 });
     //$streetview_link.hide();
 }
 
@@ -206,10 +209,13 @@ function setup_jplayer() {
         play: function() {
             freeze_superzoom();
             $nav.toggleClass('playing');
+            playing = true;
+
         },
         pause: function() {
             unfreeze_superzoom();
             $nav.toggleClass('playing');
+            playing = false;
         },
         timeupdate: function(e) {
             var current_time = $.jPlayer.convertTime(e.jPlayer.status.currentTime);
@@ -220,6 +226,7 @@ function setup_jplayer() {
         ended: function () {
             $(this).jPlayer("pause", AUDIO_LENGTH - 1);
             $nav.toggleClass('playing');
+            playing = false;
         },
         swfPath: "js",
         supplied: "oga, mp3"
@@ -286,6 +293,11 @@ function show_slide(slide) {
         $photo.show();
         $streetview.hide();
     }
+}
+
+function hide_overlays() {
+    $vignette.css({ opacity: 0 });
+    $streetview_link.hide();
 }
 
 function on_moveend() {
@@ -369,6 +381,7 @@ function goto_cue(id) {
     /*
      * Jump to a cue and update all display info, including superzoom.
      */
+    moving = true;
     var cue = cue_data[id];
     var x = parseInt(cue['x']);
     var y = parseInt(cue['y']);
@@ -385,10 +398,11 @@ function goto_cue(id) {
         superzoom.setMaxBounds(null);
         open_end_modal();
     } else {
-        superzoom.setMaxBounds(MAX_BOUNDS);
+        if (playing) {
+            superzoom.setMaxBounds(MAX_BOUNDS);
+        }
     }
 
-    moving = true;
     superzoom.on('moveend', on_moveend);
 
     active_cue = id;
@@ -448,7 +462,11 @@ function goto_next_cue() {
             id = 2;
         }
 
-        $player.jPlayer('play', cue_data[id]['cue']);
+        if (playing) {
+            $player.jPlayer('play', cue_data[id]['cue']);
+        } else {
+            $player.jPlayer('pause', cue_data[id]['cue']);
+        }
     }
 
     return false;
@@ -471,7 +489,11 @@ function goto_previous_cue() {
             id = 0;
         }
 
-        $player.jPlayer('play', cue_data[id]['cue']);
+        if (playing) {
+            $player.jPlayer('play', cue_data[id]['cue']);
+        } else {
+            $player.jPlayer('pause', cue_data[id]['cue']);
+        }
     }
 
     return false;
@@ -547,7 +569,13 @@ $(function() {
         }
 
         var id = parseInt($(this).attr('data-id'));
-        $player.jPlayer('play', cue_data[id]['cue']);
+
+        if (playing) {
+            $player.jPlayer('play', cue_data[id]['cue']);
+        } else {
+            $player.jPlayer('pause', cue_data[id]['cue']);
+        }
+        
         browse_list_toggle('close');
 
         return false;
