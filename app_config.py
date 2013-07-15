@@ -14,7 +14,7 @@ import os
 NAMES
 """
 # Project name used for display
-PROJECT_NAME = "Meriden: 1986"
+PROJECT_NAME = "Growing Up In Meridan"
 PROJECT_SHORT_NAME = PROJECT_NAME
 
 # Project name used for paths on the filesystem and in urls
