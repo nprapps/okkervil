@@ -289,9 +289,7 @@ function show_slide(slide) {
         $streetview.show();
         $photo.hide();
     } else {
-        if (!$img){
-            var $img = $('<img>');//$photo.find('img');
-        }
+        var $img = $('<img>');//$photo.find('img');
         $img.attr('src', 'img/photos/' + slide['photo']);
         $photo.show();
         $photo_wrapper.find('img').remove();
