@@ -76,7 +76,7 @@ function setup_superzoom() {
     }).addTo(superzoom);
 
     //var tiles = L.tileLayer('/img/tiles/{z}/{x}/{y}.jpg', {
-    var tiles = L.tileLayer('http://{s}.npr.org/okkervil/img/tiles/{z}/{x}/{y}.jpg', {
+    var tiles = L.tileLayer('http://{s}.npr.org/okkervil-river/img/tiles/{z}/{x}/{y}.jpg', {
         subdomains: ['apps', 'apps2'],
         continuousWorld: true,
         noWrap: true
