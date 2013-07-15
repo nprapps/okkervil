@@ -200,8 +200,8 @@ function setup_jplayer() {
     $player.jPlayer({
         ready: function () {
             $(this).jPlayer('setMedia', {
-                mp3: "http://apps.npr.org/okkervil/audio/narration.mp3",
-                oga: "http://apps.npr.org/okkervil/audio/narration.ogg"
+                mp3: "http://apps.npr.org/okkervil-river/audio/narration.mp3",
+                oga: "http://apps.npr.org/okkervil-river/audio/narration.ogg"
             }).jPlayer("pause");
 
             superzoom.whenReady(load_cue_data);
