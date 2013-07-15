@@ -318,7 +318,7 @@ a.nav-btn  {
     top: 100px;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 100px;
     z-index: 9999;
     display: none;
     text-align: center;
@@ -329,18 +329,13 @@ a.nav-btn  {
     }
 
     .photo-wrapper {
-        //background: rgba(52, 52, 52, 0.8);
-        box-sizing: border-box;
         position: relative;
         display: inline-block;
+        min-width: 320px;
+        min-height: 320px;
 
         @media (orientation:landscape) {
-            height: auto;
-            max-height: 80%;
-
-            img {
-                max-height :90%;
-            }
+            height: 100%;
         }
 
         @media (orientation:portrait) {
@@ -357,7 +352,7 @@ a.nav-btn  {
     }
 
     img {
-        display: block;
+        display: inline-block;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         border: 22px solid rgba(52, 52, 52, 0.8);
@@ -708,12 +703,19 @@ a.nav-btn  {
     }
     
     #photo {
-        top: 0;
+        top: 44px;
         left: 0;
         right: 0;
         bottom: 0;
         .photo-wrapper {
-            border: none;
+            .close {
+                top: 0;
+                right: 0;
+            }
+
+            img {
+                border: none;
+            }
         }
     }
 }

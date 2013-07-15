@@ -44,6 +44,7 @@ var $vignette;
 var $streetview_link;
 var $streetview;
 var $photo;
+var $photo_wrapper;
 
 // State
 var superzoom = null;
@@ -288,9 +289,13 @@ function show_slide(slide) {
         $streetview.show();
         $photo.hide();
     } else {
-        var $img = $photo.find('img');
+        if (!$img){
+            var $img = $('<img>');//$photo.find('img');
+        }
         $img.attr('src', 'img/photos/' + slide['photo']);
         $photo.show();
+        $photo_wrapper.find('img').remove();
+        $photo_wrapper.prepend($img);
         $streetview.hide();
     }
 }
@@ -533,6 +538,7 @@ $(function() {
     $streetview_link = $('#streetview-link');
     $streetview = $('#streetview');
     $photo = $('#photo');
+    $photo_wrapper = $photo.find('.photo-wrapper');
 
     // Setup the audio
     setup_jplayer();
