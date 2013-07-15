@@ -187,7 +187,7 @@ function unfreeze_superzoom() {
     superzoom.setMaxBounds(null);
 
     $vignette.css({ 'opacity': 0 });
-    $streetview_link.hide();
+    //$streetview_link.hide();
 }
 
 function setup_jplayer() {
@@ -280,10 +280,12 @@ function show_slide(slide) {
     if (slide['streetview']) {
         $streetview.find('iframe').attr('src', slide['streetview']);
         $streetview.show();
+        $photo.hide();
     } else {
         var $img = $photo.find('img');
         $img.attr('src', 'img/photos/' + slide['photo']);
         $photo.show();
+        $streetview.hide();
     }
 }
 

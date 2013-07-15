@@ -263,6 +263,7 @@ a.nav-btn  {
     left: 0;
     right: 0;
     text-align: center;
+    z-index: 10000;
     
     .thumbnails {
         width: auto;
@@ -327,16 +328,30 @@ a.nav-btn  {
 
     .photo-wrapper {
         border: 22px solid rgba(52, 52, 52, 0.8);
+        background: rgba(52, 52, 52, 0.8);
         box-sizing: border-box;
         position: relative;
         display: inline-block;
 
         @media (orientation:landscape) {
-            height: 100%;
+            height: auto;
+            max-height: 80%;
+
+            img {
+                max-height :90%;
+            }
         }
 
         @media (orientation:portrait) {
             width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
         }
     }
 
