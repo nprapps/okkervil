@@ -240,7 +240,6 @@ function load_cue_data() {
 
         $.each(data, function(id, cue) {
             cue['id'] = id;
-            cue['show_number'] = (id != 0 && id != num_cues - 1);
 
             var bits = cue['cue'].split(':');
             cue['cue'] = (parseInt(bits[0]) * 60) + parseInt(bits[1]) + (parseInt(bits[2]) / 60);
