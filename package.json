@@ -1,0 +1,14 @@
+{
+  "name": "okkervil",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nprapps/okkervil.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nprapps/okkervil/issues"
+  },
+  "dependencies": {
+    "less": "^3.0.4",
+    "universal-jst": "^1.0.5"
+  }
+}
